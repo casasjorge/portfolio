@@ -4,6 +4,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import type { ComponentType } from 'react';
 import { getYouTubeVideoId } from './media';
+import { PROJECT_DISPLAY_CONFIG } from '@/content/project-display';
 
 export interface ProjectSection {
   title: string;
@@ -393,6 +394,7 @@ function normalizeProject(
   slug: string,
   narrative: NarrativeParseResult
 ): Project {
+  const displayConfig = PROJECT_DISPLAY_CONFIG[slug];
   const sections =
     narrative.sections.length > 0 ? narrative.sections : (raw?.sections || []);
   const fullDescription = narrative.overview || raw?.fullDescription || '';
@@ -412,9 +414,9 @@ function normalizeProject(
     metrics: raw?.metrics,
     links: raw?.links || {},
     dates: raw?.dates || { start: '', end: '' },
-    featured: raw?.featured ?? false,
+    featured: displayConfig?.featured ?? raw?.featured ?? false,
     draft: raw?.draft ?? false,
-    order: raw?.order ?? Number.MAX_SAFE_INTEGER,
+    order: displayConfig?.order ?? raw?.order ?? Number.MAX_SAFE_INTEGER,
     accentColor: raw?.accentColor,
     sections,
     subpages: [],
