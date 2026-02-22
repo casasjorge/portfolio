@@ -84,7 +84,7 @@ This is the true kinematic ceiling and establishes the fundamental single-encoun
 ## Numerical Engine
 **Insight:** Large-Scale Three-Body Monte Carlo Simulation
 
-To explore behavior beyond idealized two-body theory, I built a high-fidelity three-body integrator modeling a starâ€“planetâ€“particle system. Over 24,000 trajectories were simulated using adaptive integration, randomized initial conditions, and strict physical filtering (unbound states, stellar clearance constraints, planetary encounter thresholds).
+To explore behavior beyond idealized two-body theory, I built a high-fidelity three-body integrator modeling a star and planet-particle system. Over 24,000 trajectories were simulated using adaptive integration, randomized initial conditions, and strict physical filtering (unbound states, stellar clearance constraints, planetary encounter thresholds).
 
 For each trajectory, I tracked:
 
@@ -129,7 +129,7 @@ Simulations demonstrate that three-body trajectories exceed the planet-only two-
 The planet does not supply energy directly; rather, it acts as a geometric lever that redirects trajectories inside a deep stellar potential well, unlocking kinetic energy otherwise inaccessible in a purely two-body framework.
 
 ## Invariant Diagnostics
-**Insight:** Energyâ€“Angular Momentum Coupling via Jacobi Constant
+**Insight:** Energy & Angular Momentum Coupling via Jacobi Constant
 
 To confirm physical consistency, results were analyzed in the framework of the Circular Restricted Three-Body Problem (CR3BP), where the conserved quantity is the Jacobi constant:
 

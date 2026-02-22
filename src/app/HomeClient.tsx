@@ -14,24 +14,58 @@ import { ProjectCardData } from '@/lib/projects';
 import { CONTACT_EMAIL_HREF, MAIN_TAB_HERO_MEDIA, RESUME_PATH, SOCIAL_LINKS } from '@/lib/site';
 import { uiButtonStyles, uiLinkStyles } from '@/lib/ui';
 
-const TAGLINES = ['Model -> Build -> Test -> Refine', 'Design -> Simulate -> Fabricate -> Validate', 'Innovate -> Prototype -> Optimize -> Deploy'];
+const ROLE_TITLES = [
+  'Computational Astrophysicist',
+  'Computational Physicist',
+  'Mechanical Engineer',
+  'Aerospace Engineer',
+  'Propulsion Engineer',
+  'Orbital Dynamics Researcher',
+  'Flight Dynamics Analyst',
+  'Numerical Simulation Developer',
+  'Multiphysics Modeler',
+  'Finite Element Analyst',
+  'Thermal Systems Analyst',
+  'Manufacturing Engineer',
+  'Design for Manufacturing Engineer',
+  'CAD/CAM Designer',
+  'Rapid Prototyping Specialist',
+  'CNC Machinist',
+  'Welder',
+  'Instrumentation Engineer',
+  'Test Engineer',
+  'R&D Engineer',
+  'Systems Engineer',
+  'Data Scientist',
+  'Machine Learning Engineer',
+  'Data Analyst',
+  'Research Data Engineer',
+  'Video Editor',
+  'Technical Content Creator',
+  'Science Communicator',
+  'Technical Communicator',
+];
 
 interface HomeClientProps {
   featuredProjects: ProjectCardData[];
 }
 
 export default function HomeClient({ featuredProjects }: HomeClientProps) {
-  const [taglineIndex, setTaglineIndex] = useState(0);
+  const [titleIndex, setTitleIndex] = useState(0);
   const [showHeroVideo, setShowHeroVideo] = useState(false);
   const [aboutImageStyle, setAboutImageStyle] = useState<{ width: string; height: string } | undefined>(undefined);
   const aboutRowRef = useRef<HTMLDivElement | null>(null);
   const aboutTextRef = useRef<HTMLDivElement | null>(null);
-  const heroCtaWidthClass = 'w-full sm:w-56';
+  const heroCtaWrapperClass = 'w-full sm:w-56';
+  const heroCtaButtonClass = 'w-full';
+  const scrollToSection = (sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTaglineIndex((prev) => (prev + 1) % TAGLINES.length);
-    }, 4000);
+      setTitleIndex((prev) => (prev + 1) % ROLE_TITLES.length);
+    }, 2200);
     return () => clearInterval(interval);
   }, []);
 
@@ -126,48 +160,78 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
 
           {/* Content Container - Centered with max-width */}
           <Container className="w-full py-20">
-            <motion.div variants={heroReveal} className="max-w-4xl">
+            <motion.div variants={heroReveal} className="max-w-4xl text-center sm:text-left">
             <h1 className="text-6xl md:text-7xl font-bold mb-6 text-slate-900 dark:text-white leading-tight">Hi, I&apos;m Jorge</h1>
             <motion.div
-              key={taglineIndex}
+              key={titleIndex}
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
               transition={{ duration: standardDuration, ease: standardEase }}
               className="text-xl md:text-2xl text-cyan-300 font-semibold"
             >
-              {TAGLINES[taglineIndex]}
+              {ROLE_TITLES[titleIndex]}
             </motion.div>
           </motion.div>
 
           <motion.div variants={heroReveal} className="mt-12 flex flex-wrap items-center gap-4">
-            <MagneticButton>
+            <MagneticButton className={heroCtaWrapperClass}>
               <Link
                 href="/projects"
-                className={`${uiButtonStyles.primaryLg} ${heroCtaWidthClass}`}
+                className={`${uiButtonStyles.primaryLg} ${heroCtaButtonClass}`}
               >
                 Explore Projects
               </Link>
             </MagneticButton>
-            <MagneticButton>
+            <MagneticButton className={heroCtaWrapperClass}>
               <a
                 href={RESUME_PATH}
                 download
-                className={`${uiButtonStyles.outlineLg} ${heroCtaWidthClass}`}
+                className={`${uiButtonStyles.outlineLg} ${heroCtaButtonClass}`}
               >
                 Download Resume
               </a>
             </MagneticButton>
-            <MagneticButton>
+            <MagneticButton className={heroCtaWrapperClass}>
               <button
-                onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-                className={`${uiButtonStyles.outlineLg} ${heroCtaWidthClass}`}
+                type="button"
+                onClick={() => scrollToSection('about')}
+                className={`${uiButtonStyles.outlineLg} ${heroCtaButtonClass}`}
               >
                 Learn More
               </button>
             </MagneticButton>
           </motion.div>
           </Container>
+
+          <motion.div
+            variants={heroReveal}
+            className="absolute inset-x-0 bottom-6 z-20 flex justify-center sm:bottom-8"
+          >
+            <motion.button
+              type="button"
+              aria-label="Scroll to About Me"
+              onClick={() => scrollToSection('about')}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/40 bg-slate-950/45 text-cyan-200 backdrop-blur transition-colors hover:border-cyan-300/70 hover:bg-cyan-500/20"
+              animate={{ y: [0, 4, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <svg
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+                className="h-4 w-4"
+              >
+                <path
+                  d="M5 7.5L10 12.5L15 7.5"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </motion.button>
+          </motion.div>
         </motion.section>
 
         {/* About Section */}
@@ -220,10 +284,36 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
               </div>
             </AnimatedSection>
           </div>
+
+          <AnimatedSection delay={0.2} className="mt-10 flex w-full justify-center">
+            <motion.button
+              type="button"
+              aria-label="Scroll to Featured Projects"
+              onClick={() => scrollToSection('featured-projects')}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/40 bg-slate-950/45 text-cyan-200 backdrop-blur transition-colors hover:border-cyan-300/70 hover:bg-cyan-500/20"
+              animate={{ y: [0, 4, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <svg
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+                className="h-4 w-4"
+              >
+                <path
+                  d="M5 7.5L10 12.5L15 7.5"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </motion.button>
+          </AnimatedSection>
         </SectionBlock>
 
         {/* Featured Projects Section */}
-        <SectionBlock spacing="tight">
+        <SectionBlock spacing="tight" id="featured-projects">
           <AnimatedSection>
             <h2 className="text-4xl font-bold mb-4 font-display">Featured Work</h2>
             <p className="text-gray-400 mb-12 max-w-2xl">
