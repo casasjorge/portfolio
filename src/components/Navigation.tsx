@@ -3,10 +3,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Container } from '@/components/LayoutPrimitives';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { interactionDuration, standardEase } from '@/lib/animations';
-import { MAIN_NAV_ITEMS, RESUME_PATH } from '@/lib/site';
+import { MAIN_NAV_ITEMS, RESUME_PATH, SOCIAL_LINKS } from '@/lib/site';
 import { uiLinkStyles } from '@/lib/ui';
 
 export function Navigation() {
@@ -14,7 +12,7 @@ export function Navigation() {
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/90 text-slate-800 backdrop-blur border-b border-slate-200/80 dark:bg-dark/80 dark:text-white dark:border-white/10">
-      <Container className="h-16 flex items-center justify-between">
+      <div className="h-16 w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold gradient-text font-display">
           JC
         </Link>
@@ -31,13 +29,29 @@ export function Navigation() {
             </Link>
           ))}
           <a
+            href={SOCIAL_LINKS.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={uiLinkStyles.nav}
+          >
+            GitHub
+          </a>
+          <a
+            href={SOCIAL_LINKS.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={uiLinkStyles.nav}
+          >
+            LinkedIn
+          </a>
+          <a
             href={RESUME_PATH}
-            download
+            target="_blank"
+            rel="noopener noreferrer"
             className={uiLinkStyles.navResume}
           >
-            Resume
+            View Resume
           </a>
-          <ThemeToggle />
         </div>
 
         {/* Mobile Menu Button */}
@@ -83,16 +97,35 @@ export function Navigation() {
               </Link>
             ))}
             <a
+              href={SOCIAL_LINKS.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={uiLinkStyles.nav}
+              onClick={() => setIsOpen(false)}
+            >
+              GitHub
+            </a>
+            <a
+              href={SOCIAL_LINKS.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={uiLinkStyles.nav}
+              onClick={() => setIsOpen(false)}
+            >
+              LinkedIn
+            </a>
+            <a
               href={RESUME_PATH}
-              download
+              target="_blank"
+              rel="noopener noreferrer"
               className={uiLinkStyles.navResumeMobile}
               onClick={() => setIsOpen(false)}
             >
-              Resume
+              View Resume
             </a>
           </motion.div>
         )}
-      </Container>
+      </div>
     </nav>
   );
 }

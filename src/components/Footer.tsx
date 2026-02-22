@@ -40,8 +40,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <a href={RESUME_PATH} download className={uiLinkStyles.footer}>
-                  Resume
+                <a
+                  href={RESUME_PATH}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={uiLinkStyles.footer}
+                >
+                  View Resume
                 </a>
               </li>
             </ul>

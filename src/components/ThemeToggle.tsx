@@ -10,14 +10,14 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
-  if (!mounted) return <div className="w-8 h-8" />; // placeholder to avoid layout shift
+  if (!mounted) return <div className="h-10 w-10" aria-hidden="true" />;
 
   const isDark = theme === 'dark';
 
   return (
     <button
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="relative w-8 h-8 rounded-full flex items-center justify-center hover:bg-white/10 dark:hover:bg-white/10 transition-colors"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/40 bg-slate-950/45 text-cyan-200 backdrop-blur transition-colors hover:border-cyan-300/70 hover:bg-cyan-500/20"
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
       <motion.svg
@@ -25,7 +25,7 @@ export function ThemeToggle() {
         initial={{ rotate: -30, opacity: 0 }}
         animate={{ rotate: 0, opacity: 1 }}
         transition={{ duration: interactionDuration, ease: standardEase }}
-        className="w-5 h-5"
+        className="h-4 w-4"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
