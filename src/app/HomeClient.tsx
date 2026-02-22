@@ -192,15 +192,6 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
                 Download Resume
               </a>
             </MagneticButton>
-            <MagneticButton className={heroCtaWrapperClass}>
-              <button
-                type="button"
-                onClick={() => scrollToSection('about')}
-                className={`${uiButtonStyles.outlineLg} ${heroCtaButtonClass}`}
-              >
-                Learn More
-              </button>
-            </MagneticButton>
           </motion.div>
           </Container>
 
@@ -258,26 +249,42 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
             <AnimatedSection delay={0.1} className="md:flex-1 md:min-w-[18rem]">
               <div ref={aboutTextRef}>
               <p className="text-gray-300 mb-4">
-                As a first-generation graduate of Columbia University, I am a computational astrophysicist focused on gravitational dynamics and energy transfer in multi-body systems. My research investigates how chaotic three-body interactions enable velocity amplification and orbital scattering beyond classical two-body limits. I develop numerical tools to explore high-dimensional phase space and to better understand how structure emerges within systems that are inherently unstable.
+                As a first-generation graduate of Columbia University, I am a computational astrophysicist drawn to the dynamics of how energy moves through complex systems. My research explores gravitational interactions in multi-body systems, examining how chaotic three-body encounters can generate velocity amplification and orbital scattering beyond classical two-body limits. I build numerical tools to navigate high-dimensional phase space and to better understand how structure emerges from systems that are inherently unstable.
               </p>
               <p className="text-gray-300 mb-6">
-                Alongside my research, I maintain a strong interest in propulsion, advanced manufacturing, and technical infrastructure. Designing rocket hardware, modeling thermal systems, and modernizing machining workflows have reinforced a perspective that theory must remain accountable to physical constraint. Across domains, I am motivated by understanding how energy moves through complex systems - whether in orbital mechanics, combustion chambers, or engineered structures - and by building tools that make those systems more legible.
+                Alongside this work, I remain deeply engaged in propulsion, advanced manufacturing, and technical infrastructure. Designing rocket hardware, modeling thermal systems, and refining machining workflows have shaped my belief that theory should always answer to physical constraint. Whether studying orbital mechanics or combustion chambers, I am motivated by the same question: how does energy move, and how can we build tools that make complex systems clearer and more controllable?
               </p>
               <div className="flex gap-4">
                 <Link
                   href={SOCIAL_LINKS.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={uiLinkStyles.accent}
+                  className={`${uiLinkStyles.accent} inline-flex items-center gap-2`}
                 >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    className="h-4 w-4"
+                  >
+                    <path d="M12 0C5.37 0 0 5.48 0 12.24c0 5.41 3.44 9.99 8.21 11.61.6.12.82-.27.82-.59 0-.29-.01-1.07-.02-2.1-3.34.74-4.05-1.65-4.05-1.65-.55-1.43-1.33-1.81-1.33-1.81-1.09-.77.08-.75.08-.75 1.2.09 1.84 1.27 1.84 1.27 1.07 1.88 2.81 1.34 3.5 1.03.11-.8.42-1.34.76-1.65-2.66-.31-5.47-1.37-5.47-6.11 0-1.35.47-2.45 1.25-3.31-.12-.31-.54-1.56.12-3.24 0 0 1.02-.34 3.35 1.26.97-.28 2.01-.42 3.04-.43 1.03.01 2.07.15 3.04.43 2.33-1.6 3.35-1.26 3.35-1.26.66 1.68.24 2.93.12 3.24.78.86 1.25 1.96 1.25 3.31 0 4.75-2.81 5.79-5.49 6.1.43.39.82 1.16.82 2.35 0 1.69-.02 3.06-.02 3.48 0 .33.21.72.83.59 4.76-1.62 8.2-6.2 8.2-11.61C24 5.48 18.63 0 12 0z" />
+                  </svg>
                   GitHub
                 </Link>
                 <Link
                   href={SOCIAL_LINKS.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={uiLinkStyles.accent}
+                  className={`${uiLinkStyles.accent} inline-flex items-center gap-2`}
                 >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    className="h-4 w-4"
+                  >
+                    <path d="M4.98 3.5a1.75 1.75 0 1 1-3.5 0 1.75 1.75 0 0 1 3.5 0zM1.75 8h3.5v13h-3.5V8zM9 8h3.35v1.78h.05c.47-.88 1.62-1.8 3.33-1.8 3.56 0 4.22 2.35 4.22 5.4V21h-3.5v-6.78c0-1.62-.03-3.71-2.25-3.71-2.26 0-2.61 1.76-2.61 3.59V21H9V8z" />
+                  </svg>
                   LinkedIn
                 </Link>
               </div>

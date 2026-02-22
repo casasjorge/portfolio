@@ -25,7 +25,7 @@ export default function ProjectsPageClient({ projects }: ProjectsPageClientProps
           title={<span className="gradient-text">All Projects</span>}
           description="A collection of my research, engineering projects, and technical explorations spanning astrophysics, optimization, and aerospace."
           mediaSrc={MAIN_TAB_HERO_MEDIA.projects}
-          mediaClassName="object-cover opacity-30 dark:opacity-15 brightness-110 dark:brightness-100"
+          mediaClassName="object-cover opacity-30 dark:opacity-35 brightness-110 dark:brightness-100"
           descriptionClassName="text-lg text-gray-300 max-w-2xl"
         />
 
