@@ -5,6 +5,7 @@ export interface NavItem {
 
 export const SITE_URL = 'https://jorge-casas.com';
 export const RESUME_PATH = '/about/Resume_Jorge_Casas_2026.pdf';
+export const CV_PATH = '/about/CV_Jorge_Casas_2026.pdf';
 export const CONTACT_EMAIL = 'jac2440@columbia.edu';
 export const CONTACT_EMAIL_HREF = `mailto:${CONTACT_EMAIL}`;
 

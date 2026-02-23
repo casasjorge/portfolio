@@ -4,6 +4,7 @@ import { ContentPreloader } from '@/components/ContentPreloader';
 import { SpeculationRules } from '@/components/SpeculationRules';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { ScrollProgress } from '@/components/ScrollProgress';
+import { Navigation } from '@/components/Navigation';
 import { getPreloadManifest } from '@/lib/preloadManifest';
 import { SITE_URL } from '@/lib/site';
 import 'katex/dist/katex.min.css';
@@ -55,6 +56,7 @@ export default function RootLayout({
           <SpeculationRules />
           <ContentPreloader routes={preloadManifest.routeCandidates} />
           <ScrollProgress />
+          <Navigation />
           {children}
         </ThemeProvider>
       </body>

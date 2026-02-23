@@ -6,7 +6,6 @@ import { useMemo } from 'react';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { ProjectContentShell } from '@/components/ProjectContentShell';
 import { ProjectSectionList } from '@/components/ProjectSectionList';
-import { ProjectSubpageNav } from '@/components/ProjectSubpageNav';
 import { Lightbox } from '@/components/Lightbox';
 import { BlurImage } from '@/components/BlurImage';
 import { layoutClassNames } from '@/components/LayoutPrimitives';
@@ -84,13 +83,8 @@ export default function ProjectDetailClient({
     return typeof val === 'string' && val.trim().length > 0;
   });
 
-  const topSlot =
-    hasSubpageNav ? (
-      <ProjectSubpageNav projectSlug={project.slug} subpages={project.subpages || []} />
-    ) : null;
-
   return (
-    <PageShell rootStyle={accentVars(project.accentColor)} topSlot={topSlot}>
+    <PageShell rootStyle={accentVars(project.accentColor)}>
         {/* Hero Image */}
         {project.heroImage ? (
           <ProjectHeroMedia

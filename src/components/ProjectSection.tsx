@@ -26,10 +26,10 @@ export function ProjectSection({
   const hasMedia = Boolean(children);
   const textColumnClass = hasMedia
     ? isImageRight
-      ? 'lg:col-start-1 lg:pr-8'
-      : 'lg:col-start-2 lg:pl-8'
+      ? 'md:col-start-1 md:pr-8'
+      : 'md:col-start-2 md:pl-8'
     : '';
-  const mediaColumnClass = isImageRight ? 'lg:col-start-2' : 'lg:col-start-1';
+  const mediaColumnClass = isImageRight ? 'md:col-start-2' : 'md:col-start-1';
 
   return (
     <motion.section
@@ -40,7 +40,7 @@ export function ProjectSection({
       className="mb-20 md:mb-24"
     >
       <div
-        className={`grid grid-cols-1 ${hasMedia ? 'lg:grid-cols-2' : ''} gap-12`}
+        className={`grid grid-cols-1 gap-8 md:gap-12 ${hasMedia ? 'md:grid-cols-2 md:gap-y-0' : ''}`}
       >
         {/* Heading + Insight */}
         <motion.div
@@ -48,12 +48,12 @@ export function ProjectSection({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: standardDuration, ease: standardEase, delay: delay + 0.1 }}
-          className={`${hasMedia ? 'order-1 lg:row-start-1' : ''} ${textColumnClass}`.trim()}
+          className={`${hasMedia ? 'order-1 md:row-start-1' : ''} ${textColumnClass}`.trim()}
         >
           <h3 className="text-2xl md:text-3xl font-bold mb-3">{title}</h3>
           <MarkdownText
             content={insight}
-            paragraphClassName={`${uiTextStyles.insight} mb-6`}
+            paragraphClassName={`${uiTextStyles.insight} mb-4 md:mb-6`}
           />
         </motion.div>
 
@@ -64,7 +64,7 @@ export function ProjectSection({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: standardDuration, ease: standardEase, delay: delay + 0.2 }}
-            className={`order-2 lg:order-none lg:row-start-1 lg:row-span-2 ${mediaColumnClass} flex items-center justify-center lg:self-center`.trim()}
+            className={`order-2 md:order-none md:row-start-1 md:row-span-2 ${mediaColumnClass} flex items-center justify-center md:self-center`.trim()}
           >
             {children}
           </motion.div>
@@ -76,7 +76,7 @@ export function ProjectSection({
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: standardDuration, ease: standardEase, delay: delay + 0.15 }}
-          className={`${hasMedia ? 'order-3 lg:row-start-2' : ''} ${textColumnClass}`.trim()}
+          className={`${hasMedia ? 'order-3 md:row-start-2' : ''} ${textColumnClass}`.trim()}
         >
           <MarkdownText
             content={description}

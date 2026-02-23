@@ -1,12 +1,13 @@
 export const uiLinkStyles = {
   nav: 'text-sm font-medium text-slate-700 hover:text-cyan-600 transition-colors dark:text-slate-200 dark:hover:text-cyan-400',
   navResume:
-    'ml-4 px-4 py-2 text-xs font-semibold tracking-[0.2em] uppercase border border-cyan-600/50 text-cyan-700 rounded-full hover:bg-cyan-600/10 transition-colors dark:border-cyan-400/60 dark:text-cyan-300 dark:hover:bg-cyan-400/10',
+    'ml-4 px-4 py-2 text-xs font-semibold tracking-[0.2em] uppercase border border-cyan-600/50 text-cyan-600 rounded-full hover:bg-cyan-600/10 transition-colors dark:border-cyan-400/60 dark:text-cyan-300 dark:hover:bg-cyan-400/10',
   navResumeMobile:
-    'text-sm font-medium text-cyan-700 hover:text-cyan-600 transition-colors dark:text-cyan-300 dark:hover:text-cyan-200',
+    'text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors dark:text-cyan-300 dark:hover:text-cyan-200',
   footer:
     'text-sm text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors',
-  accent: 'text-cyan-400 hover:text-cyan-300 transition-colors',
+  accent:
+    'text-cyan-600 hover:text-cyan-700 transition-colors dark:text-cyan-400 dark:hover:text-cyan-300',
 } as const;
 
 const markdownBody = 'text-[1.02rem] leading-8 text-gray-300';
@@ -22,9 +23,9 @@ export const uiTextStyles = {
   lead: 'text-lg leading-8 text-gray-300',
   insight: 'text-lg leading-8 font-semibold text-cyan-300',
   caption: 'text-sm text-gray-400 italic text-center',
-  strong: 'font-semibold text-white',
-  emphasis: 'text-cyan-200/80 italic',
-  link: 'text-cyan-300 hover:text-cyan-200 underline underline-offset-2 transition-colors',
+  strong: 'font-semibold text-slate-900 dark:text-white',
+  emphasis: 'italic text-cyan-600/90 dark:text-cyan-200/80',
+  link: 'text-cyan-600 hover:text-cyan-700 underline underline-offset-2 transition-colors dark:text-cyan-300 dark:hover:text-cyan-200',
   blockquote: 'border-l-4 border-cyan-400/60 pl-4 my-6 italic text-gray-400',
 } as const;
 
@@ -36,16 +37,16 @@ export const uiSubpageNavStyles = {
   measureItem: `${subpageTabBase}`,
   tabsRow: 'hidden lg:flex w-full items-center justify-center gap-1 px-6 xl:px-10',
   tab: `${subpageTabBase} border-transparent text-slate-600 dark:text-gray-400 hover:text-slate-800 dark:hover:text-gray-200 hover:border-slate-300 dark:hover:border-white/20`,
-  tabActive: `${subpageTabBase} text-cyan-700 dark:text-cyan-300 border-cyan-500 dark:border-cyan-400`,
+  tabActive: `${subpageTabBase} text-cyan-600 dark:text-cyan-300 border-cyan-500 dark:border-cyan-400`,
   dropdownTrigger:
-    'w-full inline-flex h-12 items-center justify-between px-4 text-sm font-medium border-b-2 border-cyan-500 text-cyan-700 dark:text-cyan-300 dark:border-cyan-400',
+    'w-full inline-flex items-center justify-between gap-2 rounded-full border border-cyan-500/70 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-600 transition-colors hover:bg-cyan-500/20 dark:border-cyan-400/60 dark:text-cyan-300 dark:hover:bg-cyan-400/10',
   dropdownPanel:
-    'absolute top-full left-0 right-0 z-50 bg-white/95 dark:bg-darker/95 border-t border-slate-200/80 dark:border-white/10 backdrop-blur flex flex-col gap-4 p-6',
+    'absolute top-full left-0 right-0 z-50 mt-2 min-w-[14rem] glass-morphism p-2',
   dropdownLink:
-    'text-sm font-medium text-slate-700 hover:text-cyan-600 transition-colors dark:text-slate-200 dark:hover:text-cyan-300',
-  dropdownLinkActive: 'text-sm font-medium text-cyan-700 dark:text-cyan-300',
-  mobileContainer: 'py-0 lg:hidden',
-  desktopContainer: 'hidden lg:block py-0',
+    'block w-full rounded-md px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-white/10 dark:text-slate-200 dark:hover:bg-white/10',
+  dropdownLinkActive: 'block w-full rounded-md bg-cyan-500 px-3 py-2 text-sm font-medium text-dark',
+  mobileContainer: 'py-2 lg:hidden',
+  desktopContainer: 'hidden lg:block py-2',
 } as const;
 
 const buttonBase =

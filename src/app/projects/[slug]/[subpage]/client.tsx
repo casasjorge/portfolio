@@ -6,7 +6,6 @@ import { AnimatedSection } from '@/components/AnimatedSection';
 import { ProjectContentShell } from '@/components/ProjectContentShell';
 import { ProjectSectionList } from '@/components/ProjectSectionList';
 import { SectionBlock, layoutClassNames } from '@/components/LayoutPrimitives';
-import { ProjectSubpageNav } from '@/components/ProjectSubpageNav';
 import { Lightbox } from '@/components/Lightbox';
 import { PageShell } from '@/components/PageShell';
 import { ProjectHeroMedia } from '@/components/ProjectHeroMedia';
@@ -61,17 +60,8 @@ function ProjectSubpageClient({ project, subpage, children }: ProjectSubpageClie
     openLightboxBySrc,
   } = useLightbox(lightboxImages);
 
-  const topSlot =
-    hasSubpageNav ? (
-      <ProjectSubpageNav
-        projectSlug={project.slug}
-        subpages={project.subpages || []}
-        activeSubpageSlug={subpage.slug}
-      />
-    ) : null;
-
   return (
-    <PageShell topSlot={topSlot}>
+    <PageShell>
         {/* Hero Image */}
         {heroMedia && (
           <ProjectHeroMedia

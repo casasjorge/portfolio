@@ -4,6 +4,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import type { ComponentType } from 'react';
 import { getYouTubeVideoId } from './media';
+import { ensureUniqueProjectAccentColors } from './projectAccentColors';
 import { PROJECT_DISPLAY_CONFIG } from '@/content/project-display';
 
 export interface ProjectSection {
@@ -534,6 +535,19 @@ async function hydrateCache() {
       bySlug.set(slug, project);
     })
   );
+
+  const accentColors = ensureUniqueProjectAccentColors(
+    Array.from(bySlug.values()).map((project) => ({
+      slug: project.slug,
+      accentColor: project.accentColor,
+    }))
+  );
+  accentColors.forEach((accentColor, slug) => {
+    const project = bySlug.get(slug);
+    if (project) {
+      project.accentColor = accentColor;
+    }
+  });
 
   cache = { bySlug, projectComponents, subpageComponents };
   return cache;

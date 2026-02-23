@@ -37,7 +37,7 @@ export function ProjectMetrics({ metrics }: ProjectMetricsProps) {
               <p className="text-xs font-semibold text-cyan-300 uppercase tracking-wider mb-1">
                 {metric.label}
               </p>
-              <p className="text-2xl md:text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+              <p className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                 {metric.value}
               </p>
             </div>

@@ -15,21 +15,31 @@ interface ProjectCardProps {
   project: ProjectCardData;
   variant?: 'compact' | 'featured';
   effect?: 'tilt' | 'none';
+  activeCategory?: string | null;
 }
 
-export function ProjectCard({ project, variant = 'compact', effect = 'tilt' }: ProjectCardProps) {
+export function ProjectCard({
+  project,
+  variant = 'compact',
+  effect = 'tilt',
+  activeCategory = null,
+}: ProjectCardProps) {
   const isFeatured = variant === 'featured';
   const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const tagStripRef = useRef<HTMLDivElement | null>(null);
   const [isSingleLineTitle, setIsSingleLineTitle] = useState(false);
-  const canonicalTag = getCanonicalLabels(project.tags)[0];
-  const secondaryTag = project.tags.find(
-    (tag) => !canonicalTag || tag.toLowerCase() !== canonicalTag.toLowerCase()
-  );
-  const displayTags = [canonicalTag, secondaryTag].filter(
-    (tag): tag is string => typeof tag === 'string' && tag.length > 0
-  );
-  const displaySet = new Set(displayTags.map((tag) => tag.toLowerCase()));
-  const remainingTags = project.tags.filter((tag) => !displaySet.has(tag.toLowerCase()));
+  const [showTagOverflowIndicator, setShowTagOverflowIndicator] = useState(false);
+  const canonicalLabels = getCanonicalLabels(project.tags);
+  const formatTagLabel = (tag: string) => tag.replace(/-/g, ' ').trim().toLowerCase();
+  const primaryCategoryTag =
+    (activeCategory && canonicalLabels.includes(activeCategory) ? activeCategory : canonicalLabels[0]) ||
+    formatTagLabel(project.tags[0] || 'project');
+  const additionalTagLabels = project.tags
+    .map(formatTagLabel)
+    .filter((tag, index, tags) => tags.indexOf(tag) === index)
+    .filter((tag) => tag !== primaryCategoryTag);
+  const allCategoryTags = [primaryCategoryTag, ...additionalTagLabels];
+  const tagOverflowMeasureKey = allCategoryTags.join('|');
 
   useEffect(() => {
     const measureTitleLines = () => {
@@ -66,6 +76,36 @@ export function ProjectCard({ project, variant = 'compact', effect = 'tilt' }: P
       window.removeEventListener('resize', measureTitleLines);
     };
   }, [project.title]);
+
+  useEffect(() => {
+    const measureTagOverflow = () => {
+      const el = tagStripRef.current;
+      if (!el) {
+        setShowTagOverflowIndicator(false);
+        return;
+      }
+      setShowTagOverflowIndicator(el.scrollWidth - el.clientWidth > 1);
+    };
+
+    measureTagOverflow();
+
+    const observer =
+      typeof ResizeObserver !== 'undefined' && tagStripRef.current
+        ? new ResizeObserver(measureTagOverflow)
+        : null;
+    if (observer && tagStripRef.current) {
+      observer.observe(tagStripRef.current);
+    }
+
+    window.addEventListener('resize', measureTagOverflow);
+    const fonts = (document as Document & { fonts?: { ready?: Promise<unknown> } }).fonts;
+    fonts?.ready?.then(measureTagOverflow).catch(() => undefined);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', measureTagOverflow);
+    };
+  }, [tagOverflowMeasureKey]);
 
   const card = (
       <motion.div
@@ -110,26 +150,34 @@ export function ProjectCard({ project, variant = 'compact', effect = 'tilt' }: P
               isSingleLineTitle ? 'line-clamp-3 min-h-[4.5rem]' : 'line-clamp-2 min-h-[3rem]'
             }`}
           />
-          <div className="w-full self-start flex items-center justify-start gap-2 mb-5 text-left overflow-hidden whitespace-nowrap -ml-3 pr-3">
-            {displayTags.map((tag, idx) => (
-              <span
-                key={tag}
-                className={`text-xs px-3 py-1.5 accent-tag rounded-full transition-all leading-tight text-left ${
-                  idx === 0 ? 'max-w-[45%] shrink truncate' : 'max-w-[45%] shrink min-w-0 truncate'
-                }`}
+          <div className="w-full self-start mb-5 text-left">
+            <div className="flex w-full items-center gap-1 overflow-hidden whitespace-nowrap text-xs leading-tight">
+              <span className="shrink-0 font-semibold text-slate-900 dark:text-white">Category:</span>
+              <div
+                ref={tagStripRef}
+                className="min-w-0 flex flex-1 items-center gap-1 overflow-hidden"
+                title={allCategoryTags.join(', ')}
               >
-                {tag.toLowerCase()}
-              </span>
-            ))}
-            {remainingTags.length > 0 && (
-              <span
-                className="text-xs px-3 py-1.5 accent-tag rounded-full transition-all leading-tight text-left shrink-0"
-                title={`more tags: ${remainingTags.map((tag) => tag.toLowerCase()).join(', ')}`}
-                aria-label={`${remainingTags.length} more tags`}
-              >
-                ...
-              </span>
-            )}
+                {allCategoryTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="shrink-0 max-w-[45%] truncate rounded-full px-3 py-1.5 accent-tag transition-all"
+                    title={tag}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              {showTagOverflowIndicator && (
+                <span
+                  className="shrink-0 accent-text"
+                  aria-label={`${additionalTagLabels.length} additional tags`}
+                  title={`more tags: ${additionalTagLabels.join(', ')}`}
+                >
+                  ...
+                </span>
+              )}
+            </div>
           </div>
           <div className="flex items-center gap-2 accent-text transition-colors">
             <span className="text-xs font-semibold">View Project</span>

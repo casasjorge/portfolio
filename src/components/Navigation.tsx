@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { interactionDuration, standardEase } from '@/lib/animations';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { MAIN_NAV_ITEMS, RESUME_PATH, SOCIAL_LINKS } from '@/lib/site';
 import { uiLinkStyles } from '@/lib/ui';
 
@@ -11,7 +12,7 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white/90 text-slate-800 backdrop-blur border-b border-slate-200/80 dark:bg-dark/80 dark:text-white dark:border-white/10">
+    <nav className="fixed inset-x-0 top-0 z-[70] bg-white/90 text-slate-800 backdrop-blur border-b border-slate-200/80 dark:bg-dark/80 dark:text-white dark:border-white/10">
       <div className="h-16 w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold gradient-text font-display">
           JC
@@ -55,27 +56,30 @@ export function Navigation() {
         </div>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 w-6 h-6"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          <motion.span
-            className="h-0.5 bg-slate-700 dark:bg-white origin-center"
-            animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-            transition={{ duration: interactionDuration, ease: standardEase }}
-          />
-          <motion.span
-            className="h-0.5 bg-slate-700 dark:bg-white"
-            animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
-            transition={{ duration: interactionDuration, ease: standardEase }}
-          />
-          <motion.span
-            className="h-0.5 bg-slate-700 dark:bg-white origin-center"
-            animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-            transition={{ duration: interactionDuration, ease: standardEase }}
-          />
-        </button>
+        <div className="md:hidden flex items-center gap-6">
+          <ThemeToggle variant="nav" />
+          <button
+            className="flex h-6 w-6 flex-col justify-center gap-1.5"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            <motion.span
+              className="h-0.5 bg-slate-700 dark:bg-white origin-center"
+              animate={isOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
+              transition={{ duration: interactionDuration, ease: standardEase }}
+            />
+            <motion.span
+              className="h-0.5 bg-slate-700 dark:bg-white"
+              animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+              transition={{ duration: interactionDuration, ease: standardEase }}
+            />
+            <motion.span
+              className="h-0.5 bg-slate-700 dark:bg-white origin-center"
+              animate={isOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
+              transition={{ duration: interactionDuration, ease: standardEase }}
+            />
+          </button>
+        </div>
 
         {/* Mobile Navigation */}
         {isOpen && (

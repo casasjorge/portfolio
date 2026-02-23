@@ -1,7 +1,6 @@
 'use client';
 
 import type { CSSProperties, ReactNode } from 'react';
-import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { clsx } from '@/lib/utils';
@@ -23,12 +22,14 @@ export function PageShell({
 }: PageShellProps) {
   return (
     <div className={clsx('min-h-screen flex flex-col', rootClassName)} style={rootStyle}>
-      <Navigation />
       {topSlot && <div className="mt-[var(--nav-height)]">{topSlot}</div>}
       <main className={clsx('flex-1', mainClassName)}>{children}</main>
-      <div className="relative z-10 mb-0 flex w-full translate-y-10 justify-end pr-0 sm:translate-y-12 sm:pr-6">
+      <section
+        aria-label="Theme controls"
+        className="relative z-10 hidden w-full items-center justify-end md:flex md:py-4 md:pr-4 lg:py-6 lg:pr-6"
+      >
         <ThemeToggle />
-      </div>
+      </section>
       <Footer />
     </div>
   );

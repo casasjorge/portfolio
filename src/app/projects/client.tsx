@@ -42,6 +42,7 @@ export default function ProjectsPageClient({ projects }: ProjectsPageClientProps
             key={selectedTag ?? 'all'}
             projects={filteredProjects}
             trigger="mount"
+            activeCategory={selectedTag}
           />
           
           {filteredProjects.length === 0 && (

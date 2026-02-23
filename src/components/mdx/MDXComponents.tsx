@@ -7,7 +7,7 @@ type MDXComponentMap = Record<string, ComponentType<Record<string, unknown>>>;
 function H2(props: ComponentPropsWithoutRef<'h2'>) {
   return (
     <h2
-      className="text-2xl md:text-3xl font-bold mt-12 mb-4 font-display text-white"
+      className="text-2xl md:text-3xl font-bold mt-12 mb-4 font-display text-slate-900 dark:text-white"
       {...props}
     />
   );
@@ -16,14 +16,14 @@ function H2(props: ComponentPropsWithoutRef<'h2'>) {
 function H3(props: ComponentPropsWithoutRef<'h3'>) {
   return (
     <h3
-      className="text-xl md:text-2xl font-semibold mt-10 mb-3 font-display text-white"
+      className="text-xl md:text-2xl font-semibold mt-10 mb-3 font-display text-slate-900 dark:text-white"
       {...props}
     />
   );
 }
 
 function H4(props: ComponentPropsWithoutRef<'h4'>) {
-  return <h4 className="text-lg font-semibold mt-8 mb-2 text-cyan-300" {...props} />;
+  return <h4 className="text-lg font-semibold mt-8 mb-2 text-cyan-600 dark:text-cyan-300" {...props} />;
 }
 
 function P(props: ComponentPropsWithoutRef<'p'>) {
@@ -88,7 +88,7 @@ function Code(props: ComponentPropsWithoutRef<'code'>) {
   }
   return (
     <code
-      className="px-1.5 py-0.5 rounded bg-white/10 text-cyan-200 text-sm font-mono"
+      className="px-1.5 py-0.5 rounded bg-white/10 text-cyan-600 dark:text-cyan-200 text-sm font-mono"
       {...rest}
     />
   );
@@ -114,7 +114,7 @@ function Table(props: ComponentPropsWithoutRef<'table'>) {
 function TH(props: ComponentPropsWithoutRef<'th'>) {
   return (
     <th
-      className="border border-white/10 px-4 py-2 text-left font-semibold text-cyan-200 bg-white/5"
+      className="border border-white/10 px-4 py-2 text-left font-semibold text-cyan-600 dark:text-cyan-200 bg-white/5"
       {...props}
     />
   );

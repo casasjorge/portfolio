@@ -5,19 +5,30 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { interactionDuration, standardEase } from '@/lib/animations';
 
-export function ThemeToggle() {
+interface ThemeToggleProps {
+  variant?: 'circle' | 'nav';
+}
+
+export function ThemeToggle({ variant = 'circle' }: ThemeToggleProps) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const isNavVariant = variant === 'nav';
 
   useEffect(() => setMounted(true), []);
-  if (!mounted) return <div className="h-10 w-10" aria-hidden="true" />;
+  if (!mounted) {
+    return <div className={isNavVariant ? 'h-6 w-6' : 'h-10 w-10'} aria-hidden="true" />;
+  }
 
   const isDark = theme === 'dark';
 
   return (
     <button
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/40 bg-slate-950/45 text-cyan-200 backdrop-blur transition-colors hover:border-cyan-300/70 hover:bg-cyan-500/20"
+      className={
+        isNavVariant
+          ? 'inline-flex h-6 w-6 items-center justify-center text-slate-700 transition-colors hover:text-cyan-600 dark:text-white dark:hover:text-cyan-300'
+          : 'inline-flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/40 bg-slate-950/45 text-cyan-200 backdrop-blur transition-colors hover:border-cyan-300/70 hover:bg-cyan-500/20'
+      }
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
     >
       <motion.svg
@@ -25,7 +36,7 @@ export function ThemeToggle() {
         initial={{ rotate: -30, opacity: 0 }}
         animate={{ rotate: 0, opacity: 1 }}
         transition={{ duration: interactionDuration, ease: standardEase }}
-        className="h-4 w-4"
+        className={isNavVariant ? 'h-5 w-5' : 'h-4 w-4'}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

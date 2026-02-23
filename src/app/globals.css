@@ -29,12 +29,12 @@ html {
 }
 
 .light {
-  --bg-primary: #f8fafc;
-  --bg-secondary: #e2e8f0;
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --glass-bg: rgba(255, 255, 255, 0.82);
-  --glass-border: rgba(100, 116, 139, 0.24);
+  --bg-primary: #f7fafc;
+  --bg-secondary: #dbe5ef;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(100, 116, 139, 0.34);
 }
 
 body {
@@ -169,41 +169,105 @@ button {
 }
 
 .light .ambient-panel {
-  border: 1px solid rgba(100, 116, 139, 0.2);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(100, 116, 139, 0.28);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.1);
 }
 
 /* Light-mode utility tone corrections for readability */
 .light .text-gray-300 {
-  color: #334155 !important;
+  color: #1f2937 !important;
 }
 
 .light .text-gray-400 {
-  color: #475569 !important;
+  color: #334155 !important;
 }
 
 .light .text-gray-500 {
-  color: #64748b !important;
+  color: #475569 !important;
 }
 
-.light .text-cyan-300 {
+.light .text-cyan-200 {
   color: #0e7490 !important;
 }
 
+.light .text-cyan-300 {
+  color: #0891b2 !important;
+}
+
 .light .text-cyan-400 {
+  color: #06b6d4 !important;
+}
+
+.light .hover\:text-cyan-200:hover {
+  color: #0e7490 !important;
+}
+
+.light .hover\:text-cyan-300:hover {
+  color: #0e7490 !important;
+}
+
+.light .hover\:text-cyan-400:hover {
   color: #0891b2 !important;
 }
 
 .light .border-white\/10 {
-  border-color: rgba(100, 116, 139, 0.2) !important;
+  border-color: rgba(100, 116, 139, 0.28) !important;
 }
 
 .light .bg-white\/10 {
-  background-color: rgba(15, 23, 42, 0.06) !important;
+  background-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+.light .bg-white\/5 {
+  background-color: rgba(15, 23, 42, 0.05) !important;
 }
 
 .light .hover\:bg-white\/20:hover {
-  background-color: rgba(15, 23, 42, 0.1) !important;
+  background-color: rgba(15, 23, 42, 0.14) !important;
+}
+
+.light .border-cyan-500\/20 {
+  border-color: rgba(8, 145, 178, 0.3) !important;
+}
+
+.light .border-cyan-400\/40 {
+  border-color: rgba(14, 116, 144, 0.42) !important;
+}
+
+.light .border-cyan-400\/50 {
+  border-color: rgba(14, 116, 144, 0.52) !important;
+}
+
+.light .border-cyan-400\/60 {
+  border-color: rgba(14, 116, 144, 0.6) !important;
+}
+
+.light .bg-cyan-500\/10 {
+  background-color: rgba(8, 145, 178, 0.12) !important;
+}
+
+.light .bg-cyan-500\/20 {
+  background-color: rgba(8, 145, 178, 0.18) !important;
+}
+
+.light .bg-cyan-500\/25 {
+  background-color: rgba(8, 145, 178, 0.2) !important;
+}
+
+.light .bg-cyan-500\/35 {
+  background-color: rgba(8, 145, 178, 0.26) !important;
+}
+
+.light .hover\:bg-cyan-500\/10:hover {
+  background-color: rgba(8, 145, 178, 0.16) !important;
+}
+
+.light .hover\:bg-cyan-500\/20:hover {
+  background-color: rgba(8, 145, 178, 0.24) !important;
+}
+
+.light .hover\:bg-cyan-500\/35:hover {
+  background-color: rgba(8, 145, 178, 0.3) !important;
 }
 
 /* Enhanced glow effects */

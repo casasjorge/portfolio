@@ -9,9 +9,15 @@ interface ProjectGridProps {
   projects: ProjectCardData[];
   trigger?: 'mount' | 'inView';
   cardEffect?: 'tilt' | 'none';
+  activeCategory?: string | null;
 }
 
-export function ProjectGrid({ projects, trigger = 'inView', cardEffect = 'tilt' }: ProjectGridProps) {
+export function ProjectGrid({
+  projects,
+  trigger = 'inView',
+  cardEffect = 'tilt',
+  activeCategory = null,
+}: ProjectGridProps) {
   const animationProps =
     trigger === 'mount'
       ? { animate: 'animate' as const }
@@ -28,7 +34,7 @@ export function ProjectGrid({ projects, trigger = 'inView', cardEffect = 'tilt' 
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
     >
       {projects.map((project) => (
-        <ProjectCard key={project.id} project={project} effect={cardEffect} />
+        <ProjectCard key={project.id} project={project} effect={cardEffect} activeCategory={activeCategory} />
       ))}
     </motion.div>
   );
