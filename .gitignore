@@ -23,6 +23,7 @@ out/
 .env.test.local
 .env.production.local
 uploads/
+/scripts/
 
 # logs
 npm-debug.log*

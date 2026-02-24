@@ -1,212 +1,327 @@
-﻿# Portfolio
+# Jorge Casas Portfolio
 
-Personal portfolio built with Next.js (App Router), Tailwind CSS, and Framer Motion. Static export is enabled for GitHub Pages.
+Personal portfolio for astrophysics, propulsion, and engineering work.
 
-## Quick Start
+The site is a content-first Next.js application (App Router) that statically exports to GitHub Pages. Projects are authored in MDX, writing entries are managed in JSON, and the UI layers animation, filtering, and media-heavy project storytelling on top of those content sources.
 
-1. Install dependencies: `npm install`
-2. Run the dev server: `npm run dev`
-3. Build a static export: `npm run build`
+## Objective
 
-## Project Content
+- Showcase technical projects as polished case studies.
+- Publish writing/research entries with downloadable PDFs and related-project links.
+- Keep content authoring local (MDX/JSON) without an external CMS.
+- Deploy as a fast static site with SEO metadata and pre-rendered routes.
 
-Projects are discovered from [src/content/projects](src/content/projects). Each project lives in `src/content/projects/<slug>/index.mdx` and optional subpages in `src/content/projects/<slug>/subpages/*.mdx`.
+## Architecture Summary
+
+### Stack
+
+- Next.js 14 (App Router)
+- React 18 + TypeScript
+- Tailwind CSS + custom global CSS tokens
+- Framer Motion for page/section transitions
+- MDX (`@next/mdx`) with `remark-math` + `rehype-katex`
+- `next-themes` for light/dark theme switching
+
+### Rendering Model (Server + Client split)
+
+Server route modules load typed content and metadata, then pass data into client components for interaction-heavy UI.
+
+Examples:
+
+- `src/app/page.tsx` -> `src/app/HomeClient.tsx`
+- `src/app/projects/page.tsx` -> `src/app/projects/client.tsx`
+- `src/app/projects/[slug]/page.tsx` -> `src/app/projects/[slug]/client.tsx`
+- `src/app/projects/[slug]/[subpage]/page.tsx` -> `src/app/projects/[slug]/[subpage]/client.tsx`
+- `src/app/writing/page.tsx` -> `src/app/writing/client.tsx`
+
+### Content Pipeline
+
+#### Projects (`src/lib/projects.ts`)
+
+`src/lib/projects.ts` is the core content loader. It:
+
+- discovers project folders under `src/content/projects/`
+- imports MDX modules dynamically (`index.mdx` or `content.mdx`)
+- reads raw MDX source from disk to parse narrative sections from the body
+- normalizes metadata into a typed `Project` shape
+- discovers and loads optional subpages from `subpages/*.mdx`
+- caches loaded project/subpage data and MDX components in memory
+- filters drafts by `INCLUDE_DRAFT_PROJECTS`
+- applies centralized display overrides (`featured`, `order`) from `src/content/project-display.ts`
+- assigns deterministic, distinct accent colors when not explicitly set
+
+The parser supports a hybrid authoring model:
+
+- `export const project = { ... }` provides structured metadata
+- MDX body prose becomes the project overview
+- `##` headings become narrative sections
+- `**Insight:** ...` becomes the highlighted section insight
+- markdown image lines (and standalone YouTube links) become media items
+- italic lines following media become captions
+
+If no parsed sections exist, the route falls back to rendering the MDX body directly.
+
+#### Writing (`src/lib/writing.ts`)
+
+Writing entries are defined in `src/content/writing.json` and loaded as typed records. The loader:
+
+- sorts entries by parsed date (year/month/day supported)
+- uses status as a secondary sort within the same year
+- supports `relatedProjects` links by project slug
+
+## Routes and URL Structure
+
+### Top-level routes
+
+- `/` Home (hero, about, featured projects, contact CTA)
+- `/projects/` Project index with canonical tag filters
+- `/writing/` Writing/research list
+
+### Dynamic project routes
+
+- `/projects/[slug]/` Main project detail page
+- `/projects/[slug]/[subpage]/` Optional subpage (multi-phase or subsystem deep-dives)
+
+Static generation is implemented with `generateStaticParams()` for both project and subpage routes.
+
+## Directory Guide (Source of Truth)
+
+```text
+src/
+  app/                  Next.js App Router routes, layouts, loading states
+  components/           Reusable UI, project/storytelling blocks, nav/footer, MDX renderers
+  content/
+    projects/           MDX project content (one folder per project)
+    writing.json        Writing/research metadata list
+    project-display.ts  Central featured/order controls for project cards
+  lib/                  Content loaders, filters, SEO, media helpers, UI tokens
+public/
+  projects/             Project assets (images, videos, PDFs)
+  writing/              Published writing PDFs
+  heroes/               Home/projects/writing hero media assets
+  about/                Resume/CV/about assets
+.github/workflows/      GitHub Pages deploy workflow
+```
+
+Repository note:
+
+- The app reads from the canonical `src/` and `public/` trees.
+- There are duplicate/legacy-looking paths in this repo (for example `src/src`, `public/public`, `public/projects/projects`). Treat them as non-canonical unless you intentionally wire them in.
+
+## Content Authoring
+
+### Projects (MDX)
+
+Each project lives in:
+
+```text
+src/content/projects/<slug>/index.mdx
+```
+
+Assets should live in:
+
+```text
+public/projects/<slug>/
+```
+
+Minimal project MDX shape:
+
+```mdx
+export const project = {
+  title: "Project Title",
+  shortDescription: "Optional card summary",
+  tags: ["astrophysics", "numerical-simulation"],
+  heroImage: "/projects/my-project/hero.jpg",
+  gallery: ["/projects/my-project/detail-1.jpg"],
+  technologies: ["Python", "NumPy"],
+  links: {
+    github: "https://github.com/user/repo",
+    paper: ""
+  },
+  dates: { start: "2025-01", end: "Present" },
+  draft: false
+}
+
+Overview paragraph(s) here.
+
+## Section Title
+**Insight:** Key takeaway line
+
+Section body text.
+
+![Figure](/projects/my-project/figure.png)
+*Optional caption*
+```
+
+For the full authoring guide and parsing rules, see `src/content/projects/README.md`.
+
+### Optional project subpages
+
+Add files under:
+
+```text
+src/content/projects/<slug>/subpages/*.mdx
+```
+
+Each subpage exports `meta` and can include its own body narrative and `##` sections.
+
+### Writing entries
+
+Add metadata to `src/content/writing.json` and place the corresponding PDF or file in `public/writing/<writing-slug>/` (or another referenced `public/` path).
 
 Minimal example:
 
 ```json
 {
-	"id": "unique-id",
-	"slug": "my-project",
-	"title": "My Project",
-	"shortDescription": "One-sentence summary.",
-	"fullDescription": "Longer narrative for the project page.",
-	"tags": ["astrophysics", "numerical-simulation"],
-	"heroImage": "/projects/my-project/hero.jpg",
-	"gallery": ["/projects/my-project/image-1.jpg"],
-	"technologies": ["Python", "NumPy"],
-	"links": {
-		"github": "https://github.com/user/repo",
-		"paper": "https://example.com/paper"
-	},
-	"dates": { "start": "2025-01", "end": "2025-06" },
-	"featured": true,
-	"order": 1,
-	"sections": [
-		{
-			"title": "The Challenge",
-			"insight": "Short key insight line",
-			"description": "Paragraph explaining context.",
-			"media": "/projects/my-project/section-1.jpg",
-			"caption": "Optional caption",
-			"layout": "image-right"
-		}
-	]
+  "id": "my-writing-id",
+  "slug": "my-writing-slug",
+  "title": "My Writing Title",
+  "type": "research",
+  "abstract": "Summary text.",
+  "date": "2026",
+  "tags": ["astrophysics"],
+  "status": "published",
+  "relatedProjects": ["my-project"],
+  "links": {
+    "pdf": "/writing/my-writing-slug/paper.pdf"
+  }
 }
 ```
 
-### Optional: Subpages (Subprojects)
+### Draft project visibility
 
-If a project encompasses multiple distinct technical deep-dives or phases, you can add optional subpages. Each subpage appears as a tab on the project detail page and gets its own URL and metadata.
+Draft projects are hidden by default.
 
-**Example with subpages:**
+- Set `INCLUDE_DRAFT_PROJECTS=true` to include drafts locally.
+- Set `INCLUDE_DRAFT_PROJECTS=false` to force-hide drafts.
 
-```json
-{
-	"id": "complex-project",
-	"slug": "complex-project",
-	"title": "Complex Project",
-	...
-	"subpages": [
-		{
-			"id": "component-one",
-			"slug": "component-one",
-			"title": "Component One: Thermal Analysis",
-			"description": "Deep-dive into thermal design",
-			"order": 1,
-			"sections": [
-				{
-					"title": "Heat Transfer Model",
-					"insight": "1D discretization with boundary layers",
-					"description": "...",
-					"media": "/projects/complex-project/thermal-model.jpg"
-				}
-			]
-		},
-		{
-			"id": "component-two",
-			"slug": "component-two",
-			"title": "Component Two: Fabrication",
-			"description": "Manufacturing process and results",
-			"order": 2,
-			"sections": [...]
-		}
-	]
-}
+## Project Filtering and Display Controls
+
+### Canonical filters (Projects page)
+
+The Projects page shows a curated filter taxonomy instead of every raw tag.
+
+- Canonical filter definitions: `src/lib/canonicalTags.ts`
+- Filter behavior hook: `src/lib/useProjectTagFilters.ts`
+- Filter UI: `src/components/ProjectFilters.tsx`
+
+If you add a new raw tag and want it to appear in the Projects page filters, map it in `src/lib/canonicalTags.ts`.
+
+### Featured/order overrides
+
+Project card ordering and featured status are centrally controlled in `src/content/project-display.ts`.
+
+This lets you reorder cards or change featured selections without editing each project MDX file.
+
+## Styling, Theme, and UX
+
+### Global styling
+
+- Global CSS and design tokens: `src/app/globals.css`
+- Tailwind theme extensions: `tailwind.config.js`
+- Shared UI class tokens: `src/lib/ui.ts`
+- Layout primitives: `src/components/LayoutPrimitives.tsx`
+
+### Theme
+
+- Theme provider: `src/components/ThemeProvider.tsx`
+- Theme toggle (used in nav/footer shell areas): `src/components/ThemeToggle.tsx`
+- `next-themes` is configured for explicit dark/light toggle (`enableSystem={false}`).
+
+### Motion and page transitions
+
+- Route enter animation: `src/app/template.tsx`
+- Shared animation variants/timings: `src/lib/animations.ts`
+- Many major sections/components use Framer Motion wrappers (`AnimatedSection`, project grids/cards, etc.)
+
+## MDX Rendering and Rich Content
+
+- Root MDX component hook: `mdx-components.tsx`
+- Styled MDX element mapping: `src/components/mdx/MDXComponents.tsx`
+- Math rendering: `remark-math` + `rehype-katex` (`katex` CSS imported in `src/app/layout.tsx`)
+
+The MDX renderer includes styled headings, lists, tables, code blocks, links, and images, plus a helper to render some transparent images against white backgrounds.
+
+## Performance and SEO
+
+### Performance helpers
+
+- Route candidate precompute from project folders: `src/lib/preloadManifest.ts`
+- Client-side route prefetching based on network conditions and hover intent: `src/components/ContentPreloader.tsx`
+- Browser `speculationrules` prefetch hints: `src/components/SpeculationRules.tsx`
+- Route loading skeletons: `src/app/projects/loading.tsx`, `src/app/writing/loading.tsx`
+
+### SEO and metadata
+
+- Site-level metadata: `src/app/layout.tsx`
+- Project metadata generation: `src/app/projects/[slug]/page.tsx`
+- Project subpage metadata + canonical URLs: `src/app/projects/[slug]/[subpage]/page.tsx`
+- URL helper: `src/lib/seo.ts`
+
+## Local Development
+
+### Requirements
+
+- Node.js 18+ (GitHub Actions workflow uses Node 18)
+- npm
+
+### Commands
+
+```bash
+npm install
+npm run dev
 ```
 
-**URL structure:**
-- Main project: `/projects/complex-project/`
-- Subpage: `/projects/complex-project/component-one/`
-- Another subpage: `/projects/complex-project/component-two/`
+Open `http://localhost:3000`.
 
-**Navigation:**
-- A sticky tab bar appears below the header when a project has subpages
-- Each tab links to the corresponding subpage
-- Each subpage has a "Back to [Project Name]" link
+Other common commands:
 
-**SEO:**
-- Each subpage generates its own metadata (title, description, Open Graph tags)
-- Subpages are pre-rendered at build time and work with static export
-
-**When to use subpages:**
-- Multi-phase projects (design -> fabrication -> testing)
-- Complex projects with distinct technical subsystems
-- Projects that deserve multiple wiki-style documentation pages
-- Avoid for simple projects; use regular `sections` instead
-
-### Images and Media
-
-Store images and videos under [public/projects](public/projects) in a folder matching the `slug`. Refer to them with paths like `/projects/my-project/hero.jpg`.
-
-If you add a video demo, use the `videoDemo` field in the JSON entry. Supported format in the UI is MP4.
-
-### Writing Content and Project Links
-
-Writing entries are defined in [src/content/writing.json](src/content/writing.json) and typed in [src/lib/writing.ts](src/lib/writing.ts).
-
-Minimal example:
-
-```json
-{
-	"id": "my-writing-id",
-	"slug": "my-writing-slug",
-	"title": "My Writing Title",
-	"type": "research",
-	"abstract": "Summary text.",
-	"date": "2026",
-	"tags": ["astrophysics", "numerical-methods"],
-	"status": "published",
-	"relatedProjects": ["my-project"],
-	"links": {
-		"pdf": "/writing/my-writing-slug/paper.pdf"
-	}
-}
+```bash
+npm run build
+npm run start
+npm run lint
 ```
 
-`relatedProjects` is optional. If omitted, no project page links are rendered.
+## Build and Deployment
 
-Published writing files should live in [public/writing](public/writing). Use:
+This repo is configured for GitHub Pages static hosting.
 
-`npm run publish:writing -- --slug <writing-slug> --source <uploads-path> --target paper.pdf`
+Key details:
 
-This command moves files from `uploads/` into `public/writing/<slug>/` (no duplicate copy by default) and removes the source file if it is an exact duplicate.
-
-### Home Hero Video Encoding
-
-Use the helper script to generate optimized hero assets (`.mp4`, `.webm`, and poster image):
-
-`npm run encode:hero`
-
-Custom example:
-
-`npm run encode:hero -- --source public/HeroVideo.mp4 --start 00:00:05 --duration 6 --width 960 --fps 20 --crf-mp4 27 --crf-webm 36`
-
-Notes:
-- The source file is preserved.
-- The script writes outputs to `public/heroes/main-tabs/` by default.
-- It will stop with an error if an output path would overwrite the source.
-
-### Canonical Project Filters
-
-The Projects page uses a simplified, canonical filter list. Update mappings in [src/lib/canonicalTags.ts](src/lib/canonicalTags.ts).
-
-If you add a new tag in JSON, either map it there or it will only be visible in individual project pages.
-
-## Resume
-
-Place your resume at [public/resume.pdf](public/resume.pdf). The navigation and hero buttons link to this file.
-
-## Global Site Content
-
-- Home page copy and sections: [src/app/HomeClient.tsx](src/app/HomeClient.tsx)
-- Projects index UI: [src/app/projects/client.tsx](src/app/projects/client.tsx)
-- Projects filter bar/dropdown behavior: [src/components/ProjectFilters.tsx](src/components/ProjectFilters.tsx)
-- Projects tag filtering hook: [src/lib/useProjectTagFilters.ts](src/lib/useProjectTagFilters.ts)
-- Project detail view: [src/app/projects/[slug]/client.tsx](src/app/projects/[slug]/client.tsx)
-- Project detail shared content/section primitives: [src/components/ProjectContentShell.tsx](src/components/ProjectContentShell.tsx), [src/components/ProjectSectionList.tsx](src/components/ProjectSectionList.tsx)
-- Navigation and footer: [src/components/Navigation.tsx](src/components/Navigation.tsx), [src/components/Footer.tsx](src/components/Footer.tsx)
-- Site-wide links/constants (email, social, resume, nav, main-tab hero media): [src/lib/site.ts](src/lib/site.ts)
-- Main-tab hero section component: [src/components/MainTabHero.tsx](src/components/MainTabHero.tsx)
-- Shared empty-state component: [src/components/EmptyState.tsx](src/components/EmptyState.tsx)
-
-## Styling and Theme
-
-- Global styles: [src/app/globals.css](src/app/globals.css)
-- Tailwind tokens: [tailwind.config.js](tailwind.config.js)
-- Animation variants: [src/lib/animations.ts](src/lib/animations.ts)
-- Shared layout primitives and section/container class tokens: [src/components/LayoutPrimitives.tsx](src/components/LayoutPrimitives.tsx)
-- Smart network-aware route prefetch + hover intent prefetch: [src/components/ContentPreloader.tsx](src/components/ContentPreloader.tsx), [src/lib/preloadManifest.ts](src/lib/preloadManifest.ts)
-- Browser-level speculative prefetch hints: [src/components/SpeculationRules.tsx](src/components/SpeculationRules.tsx)
-- Route loading skeletons: [src/app/projects/loading.tsx](src/app/projects/loading.tsx), [src/app/writing/loading.tsx](src/app/writing/loading.tsx)
-
-## SEO and Metadata
-
-Update site-level metadata in [src/app/layout.tsx](src/app/layout.tsx). Project-level metadata is generated per project in [src/app/projects/[slug]/page.tsx](src/app/projects/[slug]/page.tsx).
-
-## Deployment Notes
-
-Static export is enabled in [next.config.js](next.config.js) with `output: 'export'` and `trailingSlash: true` for GitHub Pages.
-
-If deploying elsewhere, you can remove the export settings and configure normal Next.js hosting.
+- Production builds use `output: 'export'` in `next.config.js`
+- `trailingSlash: true` is enabled
+- Next image optimization is disabled (`images.unoptimized: true`) for static export compatibility
+- GitHub Actions workflow builds and deploys `./out` via Pages (`.github/workflows/deploy.yml`)
+- Custom domain is defined in `CNAME`
 
 ## Common Maintenance Tasks
 
-- Add a project: create `src/content/projects/<slug>/index.mdx` and add assets under [public/projects](public/projects).
-- Add a writing piece: publish the file into [public/writing](public/writing), then add metadata in [src/content/writing.json](src/content/writing.json).
-- Add subpages to a project: add a `subpages` array to the project JSON (see example above). Each subpage will automatically appear as a tab on the project page and get its own URL.
-- Reorder projects: update each project's exported metadata (`order` / `featured`) in `index.mdx`.
-- Reorder subpages within a project: update the `order` value in each subpage object.
-- Update social links: edit [src/lib/site.ts](src/lib/site.ts).
-- Update contact email: edit [src/lib/site.ts](src/lib/site.ts).
+### Add a project
 
+1. Create `src/content/projects/<slug>/index.mdx`
+2. Add assets under `public/projects/<slug>/`
+3. Add or update display ordering/featured state in `src/content/project-display.ts`
+4. Map new tags in `src/lib/canonicalTags.ts` if needed for filter visibility
+
+### Add project subpages
+
+1. Create `src/content/projects/<slug>/subpages/<subpage-slug>.mdx`
+2. Export `meta` with `title` and `order`
+3. Add any assets under `public/projects/<slug>/...`
+
+### Add a writing entry
+
+1. Place the file under `public/writing/<slug>/` (or another `public/` path you reference)
+2. Add an entry to `src/content/writing.json`
+3. Link related projects using `relatedProjects` slugs when applicable
+
+### Update site identity/contact/media
+
+- Site URL, nav items, social links, contact email, resume/CV paths, and main-tab hero media: `src/lib/site.ts`
+- Home page copy and featured sections: `src/app/HomeClient.tsx`
+- Navigation/footer UI: `src/components/Navigation.tsx`, `src/components/Footer.tsx`
+
+## Notes for Contributors
+
+- The repository may contain local maintenance utilities or migration artifacts that are not part of the production site path.
+- When in doubt, treat `src/app`, `src/components`, `src/content`, `src/lib`, and `public` as the canonical website surface.
