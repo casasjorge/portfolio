@@ -51,7 +51,8 @@ export function Navigation() {
             rel="noopener noreferrer"
             className={uiLinkStyles.navResume}
           >
-            View Resume
+            <span className="xl:hidden">Resume</span>
+            <span className="hidden xl:inline">View Resume</span>
           </a>
         </div>
 

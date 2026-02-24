@@ -1,7 +1,7 @@
 export const uiLinkStyles = {
   nav: 'text-sm font-medium text-slate-700 hover:text-cyan-600 transition-colors dark:text-slate-200 dark:hover:text-cyan-400',
   navResume:
-    'ml-4 px-4 py-2 text-xs font-semibold tracking-[0.2em] uppercase border border-cyan-600/50 text-cyan-600 rounded-full hover:bg-cyan-600/10 transition-colors dark:border-cyan-400/60 dark:text-cyan-300 dark:hover:bg-cyan-400/10',
+    'ml-4 whitespace-nowrap px-4 py-2 text-xs font-semibold tracking-[0.2em] uppercase border border-cyan-600/50 text-cyan-600 rounded-full hover:bg-cyan-600/10 transition-colors dark:border-cyan-400/60 dark:text-cyan-300 dark:hover:bg-cyan-400/10',
   navResumeMobile:
     'text-sm font-medium text-cyan-600 hover:text-cyan-700 transition-colors dark:text-cyan-300 dark:hover:text-cyan-200',
   footer:

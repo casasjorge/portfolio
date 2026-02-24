@@ -33,6 +33,8 @@ export function WritingCard({ writing }: { writing: Writing }) {
   );
   const relatedProjects = (writing.relatedProjects || []).filter((slug) => slug.trim().length > 0);
   const hasPrimaryActions = hasPdf || relatedProjects.length > 0;
+  const compactPrimaryActionClass = 'w-full min-w-0 justify-center sm:w-auto';
+  const mobileFullRowActionClass = 'col-span-2 w-full min-w-0 justify-center sm:col-auto sm:w-auto';
 
   return (
     <motion.article
@@ -71,21 +73,21 @@ export function WritingCard({ writing }: { writing: Writing }) {
 
       {hasPrimaryActions && (
         <div className="mt-4">
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
             {hasPdf && (
               <>
                 <a
                   href={writing.links.pdf}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={uiButtonStyles.writingOutline}
+                  className={`${uiButtonStyles.writingOutline} ${compactPrimaryActionClass}`}
                 >
                   View Writing
                 </a>
                 <a
                   href={writing.links.pdf}
                   download
-                  className={uiButtonStyles.writingPrimary}
+                  className={`${uiButtonStyles.writingPrimary} ${compactPrimaryActionClass}`}
                 >
                   Download Writing
                 </a>
@@ -95,7 +97,7 @@ export function WritingCard({ writing }: { writing: Writing }) {
               <a
                 key={projectSlug}
                 href={`/projects/${projectSlug}`}
-                className={uiButtonStyles.writingOutline}
+                className={`${uiButtonStyles.writingOutline} ${mobileFullRowActionClass}`}
               >
                 View Project: {formatProjectLabel(projectSlug)}
               </a>
