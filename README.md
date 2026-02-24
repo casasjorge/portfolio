@@ -325,3 +325,18 @@ Key details:
 
 - The repository may contain local maintenance utilities or migration artifacts that are not part of the production site path.
 - When in doubt, treat `src/app`, `src/components`, `src/content`, `src/lib`, and `public` as the canonical website surface.
+
+## Security Checklist
+
+Use this as a lightweight operational checklist for a public, static portfolio deployment.
+
+- Keep 2FA enabled on GitHub, Cloudflare, and your domain registrar.
+- Keep `CNAME` and `src/lib/site.ts` aligned to the same canonical domain.
+- Do not commit secrets; rotate any secret immediately if it is ever committed (including history).
+- Keep generated build output (`out/`) untracked in git.
+- Strip metadata from public assets before publishing (EXIF in photos, document metadata in PDFs).
+- Pin GitHub Actions to commit SHAs and review/update pins periodically.
+- Enable GitHub Dependabot alerts/security updates and keep dependencies current.
+- Protect the default branch (reviews, no force-pushes).
+- If you later proxy traffic through Cloudflare, add security headers there (CSP, `nosniff`, referrer policy, permissions policy).
+- Optional but recommended: enable DNSSEC and add CAA DNS records.
