@@ -38,7 +38,23 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
   const heroCtaButtonClass = 'w-full';
   const homeSectionStyle = { paddingTop: '2.25rem', paddingBottom: '2.25rem' };
   const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const target = document.getElementById(sectionId);
+    if (!target) return;
+
+    const rootStyles = window.getComputedStyle(document.documentElement);
+    const navHeightVar = rootStyles.getPropertyValue('--nav-height').trim();
+    const rootFontSize = Number.parseFloat(rootStyles.fontSize) || 16;
+    const navHeightPx = navHeightVar.endsWith('rem')
+      ? Number.parseFloat(navHeightVar) * rootFontSize
+      : Number.parseFloat(navHeightVar) || 64;
+    const offsetPx = navHeightPx;
+    const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - offsetPx);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    window.scrollTo({
+      top,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
   };
   const copyEmailToClipboard = async () => {
     try {
@@ -406,17 +422,37 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
                       />
                     </svg>
                     <span>{CONTACT_EMAIL}</span>
-                    {emailCopyState === 'copied' && (
-                      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-3.5 w-3.5 text-cyan-300 sm:h-4 sm:w-4">
-                        <path
-                          d="M5 10.25 8.25 13.5 15 6.75"
-                          stroke="currentColor"
-                          strokeWidth="1.8"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
+                    <span
+                      className="relative inline-flex h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4"
+                      aria-hidden="true"
+                    >
+                      <AnimatePresence initial={false}>
+                        {emailCopyState === 'copied' ? (
+                          <motion.svg
+                            key="email-copy-check"
+                            viewBox="0 0 20 20"
+                            fill="none"
+                            className="absolute inset-0 h-full w-full text-cyan-300"
+                            initial={{ opacity: 0, scale: 0.75, rotate: -12 }}
+                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                            exit={{ opacity: 0, scale: 0.75, rotate: 12 }}
+                            transition={{ duration: 0.22, ease: standardEase }}
+                          >
+                            <motion.path
+                              d="M5 10.25 8.25 13.5 15 6.75"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              initial={{ pathLength: 0 }}
+                              animate={{ pathLength: 1 }}
+                              exit={{ pathLength: 0 }}
+                              transition={{ duration: 0.22, ease: standardEase }}
+                            />
+                          </motion.svg>
+                        ) : null}
+                      </AnimatePresence>
+                    </span>
                   </span>
                 </button>
 

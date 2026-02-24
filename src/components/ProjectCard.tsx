@@ -151,11 +151,11 @@ export function ProjectCard({
             }`}
           />
           <div className="w-full self-start mb-5 text-left">
-            <div className="flex w-full items-center gap-1 overflow-hidden whitespace-nowrap text-xs leading-tight">
+            <div className="flex w-full items-center gap-0.5 overflow-hidden whitespace-nowrap text-xs leading-tight">
               <span className="shrink-0 font-semibold text-slate-900 dark:text-white">Category:</span>
               <div
                 ref={tagStripRef}
-                className="min-w-0 flex flex-1 items-center gap-1 overflow-hidden"
+                className="min-w-0 flex flex-1 items-center gap-0.5 overflow-hidden"
                 title={allCategoryTags.join(', ')}
               >
                 {allCategoryTags.map((tag) => (
