@@ -10,7 +10,7 @@ export const CONTACT_EMAIL = 'jac2440@columbia.edu';
 export const CONTACT_EMAIL_HREF = `mailto:${CONTACT_EMAIL}`;
 
 export const SOCIAL_LINKS = {
-  github: 'https://github.com/prshr1',
+  github: 'https://github.com/casasjorge',
   linkedin: 'https://www.linkedin.com/in/jac2440/',
 } as const;
 
