@@ -32,6 +32,18 @@ export const project = {
   "shortDescription": "Optional: card-only subtitle; if omitted, cards auto-generate one",
   "tags": ["tag-a", "tag-b"],
   "heroImage": "/projects/my-project-slug/hero.jpg",
+  "heroImageMode": "hero",
+  "openingSummary": {
+    "problem": "The problem addressed",
+    "role": "Your role and collaborators",
+    "method": "The approach used",
+    "result": "The supported outcome",
+    "status": "Current status and evidence boundary"
+  },
+  "mediaModes": {
+    "/projects/my-project-slug/diagram.png": "technical-diagram",
+    "/projects/my-project-slug/evidence.jpg": "full-width-evidence"
+  },
   "gallery": [
     "/projects/my-project-slug/shot-1.jpg",
     "/projects/my-project-slug/shot-2.jpg"
@@ -140,6 +152,10 @@ For transparent PNG/WebP assets that need a white backing, append `?bg=white` to
 ```
 
 This keeps the original aspect ratio and resolution behavior while rendering transparent pixels on white.
+
+## Project Image Modes
+
+Use `heroImageMode` for a hero that needs a specific fit and `mediaModes` for narrative or gallery media. Supported modes are `hero`, `technical-diagram`, `full-width-evidence`, `detail-crop`, `portrait`, `gallery`, and `video-still`. Technical diagrams and portraits preserve their full frame; full-width evidence uses the full section width; detail crops intentionally use a fixed crop. For an individual inline image, append `?mode=technical-diagram` (or another supported mode) to its path.
 
 ## Section Parsing Rules (Important)
 

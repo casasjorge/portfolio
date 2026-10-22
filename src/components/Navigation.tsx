@@ -12,7 +12,7 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-[70] bg-white/90 text-slate-800 backdrop-blur border-b border-slate-200/80 dark:bg-dark/80 dark:text-white dark:border-white/10">
+    <nav className="fixed inset-x-0 top-0 z-[70] border-b border-[var(--border-subtle)] bg-[var(--surface-paper)] text-[var(--text-primary)]">
       <div className="h-16 w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold gradient-text font-display">
           JC
@@ -89,7 +89,7 @@ export function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: interactionDuration, ease: standardEase }}
-            className="absolute top-16 left-0 right-0 bg-white/95 dark:bg-darker/95 border-t border-slate-200/80 dark:border-white/10 backdrop-blur flex flex-col gap-4 p-6 md:hidden"
+            className="absolute top-16 left-0 right-0 flex flex-col gap-4 border-t border-[var(--border-subtle)] bg-[var(--surface-paper)] p-6 md:hidden"
           >
             {MAIN_NAV_ITEMS.map((item) => (
               <Link

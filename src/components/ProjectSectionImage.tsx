@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { MarkdownText } from '@/components/MarkdownText';
-import { shouldUseWhiteImageBg } from '@/lib/imagePresentation';
+import { shouldUseWhiteImageBg, type ProjectImageMode } from '@/lib/imagePresentation';
 import {
   getYouTubeEmbedUrl,
   getYouTubeThumbnailUrl,
@@ -16,14 +16,34 @@ interface ProjectSectionImageProps {
   alt: string;
   caption?: string;
   onOpen?: (src: string) => void;
+  mode?: ProjectImageMode;
 }
 
-export function ProjectSectionImage({ src, alt, caption, onOpen }: ProjectSectionImageProps) {
+export function ProjectSectionImage({
+  src,
+  alt,
+  caption,
+  onOpen,
+  mode = 'full-width-evidence',
+}: ProjectSectionImageProps) {
   const [isYouTubePlaying, setIsYouTubePlaying] = useState(false);
   const isVideo = isVideoMedia(src);
   const youTubeId = getYouTubeVideoId(src);
   const hasYouTube = Boolean(youTubeId);
   const useWhiteBg = shouldUseWhiteImageBg(src);
+  const isTechnicalImage = mode === 'technical-diagram';
+  const isDetailCrop = mode === 'detail-crop';
+  const isPortrait = mode === 'portrait';
+  const imageFrameClass = isTechnicalImage || mode === 'full-width-evidence'
+    ? 'rounded-[1.25rem] border border-[var(--border-subtle)] bg-[var(--surface-paper)] p-2'
+    : 'rounded-[1.25rem]';
+  const imageClass = isDetailCrop
+    ? 'block h-full w-full object-cover'
+    : isPortrait
+      ? 'block h-auto max-h-[42rem] w-auto max-w-full object-contain mx-auto'
+      : mode === 'video-still'
+        ? 'block aspect-video h-auto w-full object-cover'
+        : 'block h-auto w-full object-contain';
 
   return (
     <div className="space-y-3 w-full flex flex-col items-center">
@@ -64,7 +84,7 @@ export function ProjectSectionImage({ src, alt, caption, onOpen }: ProjectSectio
         )
       ) : isVideo ? (
         <video
-          className="block w-full h-auto rounded-[1.25rem]"
+          className={`block w-full h-auto rounded-[1.25rem] bg-black ${mode === 'video-still' ? 'aspect-video object-contain' : ''}`}
           controls
           playsInline
         >
@@ -76,14 +96,14 @@ export function ProjectSectionImage({ src, alt, caption, onOpen }: ProjectSectio
           type="button"
           onClick={() => onOpen?.(src)}
           disabled={!onOpen}
-          className="block w-full text-left cursor-zoom-in disabled:cursor-default"
-          aria-label="Open image"
+          className={`block w-full text-left cursor-zoom-in disabled:cursor-default ${isDetailCrop ? 'aspect-[4/3] overflow-hidden' : ''} ${imageFrameClass}`}
+          aria-label={`Open image: ${alt}`}
         >
           <img
             src={src}
             alt={alt}
             loading="lazy"
-            className={`block w-full h-auto rounded-[1.25rem] ${useWhiteBg ? 'bg-white' : ''}`.trim()}
+            className={`${imageClass} ${useWhiteBg ? 'bg-white' : ''}`.trim()}
           />
         </button>
       )}

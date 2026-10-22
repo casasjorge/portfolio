@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import Image from 'next/image';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { Container, SectionBlock } from '@/components/LayoutPrimitives';
@@ -28,6 +28,7 @@ interface HomeClientProps {
 }
 
 export default function HomeClient({ featuredProjects }: HomeClientProps) {
+  const prefersReducedMotion = useReducedMotion();
   const [titleIndex, setTitleIndex] = useState(0);
   const [showHeroVideo, setShowHeroVideo] = useState(false);
   const [aboutImageStyle, setAboutImageStyle] = useState<{ width: string; height: string } | undefined>(undefined);
@@ -36,7 +37,7 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
   const aboutTextRef = useRef<HTMLDivElement | null>(null);
   const heroCtaWrapperClass = 'w-full sm:w-56';
   const heroCtaButtonClass = 'w-full';
-  const homeSectionStyle = { paddingTop: '2.25rem', paddingBottom: '2.25rem' };
+  const homeSectionStyle = { paddingTop: '4rem', paddingBottom: '4rem' };
   const scrollToSection = (sectionId: string) => {
     const target = document.getElementById(sectionId);
     if (!target) return;
@@ -78,11 +79,12 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
   };
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const interval = setInterval(() => {
       setTitleIndex((prev) => (prev + 1) % ROLE_TITLES.length);
     }, 2200);
     return () => clearInterval(interval);
-  }, []);
+  }, [prefersReducedMotion]);
 
   useEffect(() => {
     if (emailCopyState === 'idle') return;
@@ -129,11 +131,11 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
       const textHeight = Math.round(textColumn.getBoundingClientRect().height);
       const rowWidth = Math.round(row.getBoundingClientRect().width);
       const maxByRow = Math.max(260, rowWidth - ROW_GAP_PX - MIN_TEXT_WIDTH_PX);
-      const next = Math.min(textHeight, maxByRow);
+      const next = Math.min(textHeight * 0.75, maxByRow);
       if (next <= 0) return;
 
       setAboutImageStyle((prev) => {
-        const nextStyle = { width: `${next}px`, height: `${next}px` };
+        const nextStyle = { width: `${next}px`, height: `${Math.round(next * 4 / 3)}px` };
         if (prev?.width === nextStyle.width && prev?.height === nextStyle.height) return prev;
         return nextStyle;
       });
@@ -163,13 +165,13 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
     <PageShell>
         {/* Hero Section */}
         <motion.section
-          className="min-h-screen relative overflow-hidden flex flex-col justify-center"
+          className="editorial-home-hero min-h-screen relative overflow-hidden flex flex-col justify-center"
           variants={heroStagger}
           initial="initial"
           animate="animate"
         >
           {/* Hero Background Media - Full Bleed */}
-          <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_rgba(34,211,238,0.18),_transparent_58%),linear-gradient(180deg,_rgba(15,23,42,0.72),_rgba(2,6,23,0.92))]" />
+          <div className="editorial-home-wash absolute inset-0 -z-10" />
           {showHeroVideo ? (
             <video
               autoPlay
@@ -178,7 +180,7 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
               playsInline
               preload="metadata"
               poster={MAIN_TAB_HERO_MEDIA.homePoster}
-              className="absolute inset-0 w-full h-full object-cover opacity-40 -z-10"
+              className="absolute inset-0 w-full h-full object-cover opacity-[0.12] mix-blend-multiply -z-10"
               aria-hidden="true"
             >
               <source src={MAIN_TAB_HERO_MEDIA.homeWebm} type="video/webm" />
@@ -189,7 +191,10 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
           {/* Content Container - Centered with max-width */}
           <Container className="w-full py-20">
             <motion.div variants={heroReveal} className="max-w-4xl text-center sm:text-left">
-              <h1 className="text-6xl md:text-7xl font-bold text-white leading-tight">
+              <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent-copper)]">
+                Research / Engineering / Communication
+              </p>
+              <h1 className="text-5xl md:text-7xl font-bold text-[var(--text-primary)] leading-tight">
                 Hi, I&apos;m Jorge
               </h1>
               <div className="mt-6 md:mt-8 flex min-h-[4rem] items-center justify-center sm:justify-start">
@@ -199,7 +204,8 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}
                   transition={{ duration: standardDuration, ease: standardEase }}
-                  className="w-full text-xl md:text-2xl leading-tight text-cyan-300 font-semibold"
+                  aria-live="off"
+                  className="w-full font-display text-xl md:text-2xl leading-tight text-[var(--accent-copper)]"
                 >
                   {ROLE_TITLES[titleIndex]}
                 </motion.div>
@@ -236,8 +242,8 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
               type="button"
               aria-label="Scroll to About Me"
               onClick={() => scrollToSection('about')}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/40 bg-slate-950/45 text-cyan-200 backdrop-blur transition-colors hover:border-cyan-300/70 hover:bg-cyan-500/20"
-              animate={{ y: [0, 4, 0] }}
+              className="editorial-scroll-cue inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--accent-copper)] transition-colors hover:border-[var(--accent-copper)]"
+              animate={prefersReducedMotion ? undefined : { y: [0, 4, 0] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
             >
               <svg
@@ -266,14 +272,14 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
 
           <div ref={aboutRowRef} className="flex flex-col md:flex-row gap-6 md:items-stretch">
             <div
-              className="relative w-full aspect-square rounded-lg overflow-hidden bg-white/5 md:shrink-0 md:w-[320px] md:h-[320px]"
+              className="relative w-full aspect-[3/4] rounded-lg overflow-hidden border border-[var(--border-subtle)] bg-[var(--surface-paper)] md:shrink-0 md:w-[320px] md:h-[426px]"
               style={aboutImageStyle}
             >
               <Image
                 src="/projects/columbia-hybrid-rocket/jorge-portrait.jpg"
                 alt="Jorge"
                 fill
-                className="object-cover object-center"
+                className="object-contain object-center"
                 priority
                 sizes="(max-width: 768px) 100vw, 45vw"
               />
@@ -296,8 +302,8 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
               type="button"
               aria-label="Scroll to Featured Projects"
               onClick={() => scrollToSection('featured-projects')}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-cyan-400/40 bg-slate-950/45 text-cyan-200 backdrop-blur transition-colors hover:border-cyan-300/70 hover:bg-cyan-500/20"
-              animate={{ y: [0, 4, 0] }}
+              className="editorial-scroll-cue inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border-subtle)] text-[var(--accent-copper)] transition-colors hover:border-[var(--accent-copper)]"
+              animate={prefersReducedMotion ? undefined : { y: [0, 4, 0] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
             >
               <svg
@@ -346,8 +352,8 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
         {/* CTA Section */}
         <SectionBlock spacing="tight" id="contact" style={homeSectionStyle}>
           <AnimatedSection>
-            <div className="glass-morphism ambient-panel rounded-xl px-6 pt-6 pb-5 text-center sm:px-8 sm:pt-8 sm:pb-5">
-              <h2 className="text-3xl font-bold mb-3">Let's get in Contact!</h2>
+            <div className="editorial-panel rounded-xl px-6 pt-6 pb-5 text-center sm:px-8 sm:pt-8 sm:pb-5">
+              <h2 className="text-3xl font-bold mb-3">Let&apos;s get in Contact!</h2>
               <p className="mx-auto mb-7 max-w-2xl text-gray-300">
                 Explore my resume, CV, and professional profiles below. I’m always happy to connect about research, engineering projects, or technical collaborations.
               </p>

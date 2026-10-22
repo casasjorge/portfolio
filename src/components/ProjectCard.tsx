@@ -124,7 +124,12 @@ export function ProjectCard({
               src={project.heroImage}
               alt={project.title}
               fill
-              className="object-cover brightness-110 transition-transform duration-300 group-hover:scale-110"
+              className={`transition-transform duration-300 group-hover:scale-[1.03] ${
+                project.heroImageMode === 'technical-diagram' ||
+                project.heroImageMode === 'portrait'
+                  ? 'bg-[var(--surface-paper)] object-contain p-3'
+                  : 'object-cover'
+              }`}
               sizes={isFeatured ? '(max-width: 768px) 100vw, 66vw' : '(max-width: 768px) 100vw, 33vw'}
             />
           ) : (

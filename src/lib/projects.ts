@@ -5,7 +5,16 @@ import path from 'path';
 import type { ComponentType } from 'react';
 import { getYouTubeVideoId } from './media';
 import { ensureUniqueProjectAccentColors } from './projectAccentColors';
+import type { ProjectImageMode, ProjectImageModeMap } from './imagePresentation';
 import { PROJECT_DISPLAY_CONFIG } from '@/content/project-display';
+
+export interface ProjectOpeningSummary {
+  problem: string;
+  role: string;
+  method: string;
+  result: string;
+  status: string;
+}
 
 export interface ProjectSection {
   title: string;
@@ -14,7 +23,7 @@ export interface ProjectSection {
   media?: string;
   caption?: string;
   mediaItems?: ProjectSectionMedia[];
-  layout?: 'image-left' | 'image-right';
+  layout?: 'image-left' | 'image-right' | 'full-width-evidence';
 }
 
 export interface ProjectSectionMedia {
@@ -46,6 +55,9 @@ export interface Project {
   fullDescription: string;
   tags: string[];
   heroImage: string;
+  heroImageMode?: ProjectImageMode;
+  mediaModes?: ProjectImageModeMap;
+  openingSummary?: ProjectOpeningSummary;
   gallery: string[];
   videoDemo?: string;
   technologies: string[];
@@ -81,7 +93,16 @@ export interface Project {
 
 export type ProjectCardData = Pick<
   Project,
-  'id' | 'slug' | 'title' | 'shortDescription' | 'tags' | 'heroImage' | 'featured' | 'order' | 'accentColor'
+  | 'id'
+  | 'slug'
+  | 'title'
+  | 'shortDescription'
+  | 'tags'
+  | 'heroImage'
+  | 'heroImageMode'
+  | 'featured'
+  | 'order'
+  | 'accentColor'
 >;
 
 type ProjectMDXModule = {
@@ -409,6 +430,9 @@ function normalizeProject(
     fullDescription,
     tags: raw?.tags || [],
     heroImage: raw?.heroImage || '',
+    heroImageMode: raw?.heroImageMode,
+    mediaModes: raw?.mediaModes,
+    openingSummary: raw?.openingSummary,
     gallery: raw?.gallery || [],
     videoDemo: raw?.videoDemo,
     technologies: raw?.technologies || [],

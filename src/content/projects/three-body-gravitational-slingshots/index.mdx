@@ -8,6 +8,20 @@
     "research"
   ],
   "heroImage": "/projects/three-body-gravitational-slingshots/hero.jpg",
+  "openingSummary": {
+    "problem": "How do close-in three-body encounters change the energy limits of a gravity assist?",
+    "role": "Developed the analytical and numerical framework with PI Dr. David Kipping.",
+    "method": "Derived two-body bounds and simulated 24,000 filtered three-body trajectories.",
+    "result": "Simulations exceed the planet-only bound while remaining below the stellar two-body ceiling.",
+    "status": "Ongoing research; results are analytical and simulated, not flight measurements."
+  },
+  "mediaModes": {
+    "/projects/three-body-gravitational-slingshots/best_candidate.png": "technical-diagram",
+    "/projects/three-body-gravitational-slingshots/trajectory_tracks_planet.png": "technical-diagram",
+    "/projects/three-body-gravitational-slingshots/velocity_phase_space.png": "technical-diagram",
+    "/projects/three-body-gravitational-slingshots/energy_cdf.png": "technical-diagram",
+    "/projects/three-body-gravitational-slingshots/parameter_correlations.png": "technical-diagram"
+  },
   "gallery": [
     "/projects/three-body-gravitational-slingshots/best_candidate.png",
     "/projects/three-body-gravitational-slingshots/trajectory_tracks_planet.png",
@@ -37,7 +51,7 @@
   "draft": false,
 }
 
-This project explores gravitational slingshot dynamics beyond the classical two-body approximation by modeling hyperbolic flybys in full three-body systems. I developed a unified analytical and numerical framework to quantify energy ceilings in close-in gravitational slingshots, combining closed-form hyperbolic scattering theory with large-scale three-body Monte Carlo simulation in a hot Jupiter system. Starting from first principles, together with my PI, Dr. David Kipping, we derived strict two-body kinematic limits and geometric vector plateaus, then I built a high-fidelity integrator to test how real trajectories behave in a deep stellar potential. 
+This project explores gravitational slingshot dynamics beyond the classical two-body approximation by modeling hyperbolic flybys in full three-body systems. With my PI, Dr. David Kipping, I developed an analytical and numerical framework for energy ceilings in close-in systems: we derived two-body kinematic limits and geometric vector plateaus, and I built an integrator to test trajectories in a deep stellar potential.
 
 The results show that while no trajectory exceeds the stellar two-body energy ceiling, three-body dynamics can amplify energy gains far beyond classical planet-only bounds through structured angular momentum exchange consistent with conservation of the Jacobi constant. This project demonstrates rigorous theoretical derivation, invariant-based diagnostics, and large-scale numerical validation to uncover efficiency frontiers in multi-body orbital systems.
 
@@ -100,13 +114,13 @@ Two distinct ceilings emerge:
 **Scalar speed gain ceiling**
 
 $$
-\eta_{\text{speed}} = \frac{\Delta{V}}{{v}_{\infty,\text{p}}} \leq 1
+\eta_{\text{speed}} = \frac{\Delta V}{v_{\infty,\mathrm{p}}} \leq 1
 $$
 
 **Vector change plateau**
 
 $$
-\eta_{\text{vector}} = \frac{|\Delta{V}|}{2\sqrt2{v}_{\infty,\text{p}}}
+\eta_{\text{vector}} = \frac{|\Delta \mathbf{V}|}{2\sqrt{2}\,v_{\infty,\mathrm{p}}}
 $$
 
 The first represents a physically meaningful energy frontier.
@@ -128,18 +142,18 @@ The planet does not supply energy directly; rather, it acts as a geometric lever
 ## Invariant Diagnostics
 **Insight:** Energy & Angular Momentum Coupling via Jacobi Constant
 
-To confirm physical consistency, results were analyzed in the framework of the Circular Restricted Three-Body Problem (CR3BP), where the conserved quantity is the Jacobi constant:
+To check physical consistency, results were analyzed in the Circular Restricted Three-Body Problem (CR3BP). In the standard nondimensional rotating-frame convention, the Jacobi constant is:
 
 $$
-C = -2\Omega - |\dot{{r}}|^2
+C = 2\Omega - \left(\dot{x}^{\,2} + \dot{y}^{\,2}\right)
 $$
 
-In dimensional form, inertial energy changes are coupled to angular momentum exchange:
+Here, $\Omega$ is the CR3BP pseudo-potential and the velocity components are measured in the rotating frame. In the circular restricted problem, inertial specific-energy changes are related to changes in the $z$-component of specific angular momentum by:
 
 $$
-\Delta\mathcal{E} \propto {\Omega} \cdot \Delta{L}
+\Delta\mathcal{E} = n\,\Delta L_z
 $$
 
-Monte Carlo results exhibit this correlation explicitly: large energy boosts correspond to large changes in angular momentum delivered by planetary torque.
+where $n$ is the orbital angular rate of the rotating frame. Monte Carlo results show this energy-angular-momentum correlation: large energy boosts accompany large changes in angular momentum due to planetary torque.
 
 This confirms that observed amplification arises from structured three-body dynamics rather than numerical artifacts.

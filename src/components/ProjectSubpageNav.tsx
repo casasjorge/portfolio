@@ -50,10 +50,6 @@ export function ProjectSubpageNav({
   const resolvedActiveSubpageSlug =
     activeSubpageSlug ?? (typeof selectedSegment === 'string' ? selectedSegment : undefined);
 
-  if (!subpages || subpages.length === 0) {
-    return null;
-  }
-
   const orderedSubpages = useMemo(
     () => [...subpages].sort((a, b) => a.order - b.order),
     [subpages]
@@ -142,6 +138,10 @@ export function ProjectSubpageNav({
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [isDesktopDropdownOpen, isMobileOpen]);
+
+  if (!subpages || subpages.length === 0) {
+    return null;
+  }
 
   const getDropdownLinkClass = (isActive: boolean) =>
     isActive ? uiSubpageNavStyles.dropdownLinkActive : uiSubpageNavStyles.dropdownLink;

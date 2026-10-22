@@ -16,8 +16,8 @@ module.exports = {
         darker: '#050811',
         ink: '#0b0f1a',
         mist: '#c7ccd6',
-        glow: '#6ee7ff',
-        neon: '#00d9ff',
+        glow: '#a34f2b',
+        neon: '#b8653f',
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-in',

@@ -10,7 +10,7 @@ interface ProjectSectionProps {
   insight: string;
   description: string;
   children?: React.ReactNode;
-  layout?: 'image-left' | 'image-right';
+  layout?: 'image-left' | 'image-right' | 'full-width-evidence';
   delay?: number;
 }
 
@@ -23,13 +23,20 @@ export function ProjectSection({
   delay = 0,
 }: ProjectSectionProps) {
   const isImageRight = layout === 'image-right';
+  const isFullWidthEvidence = layout === 'full-width-evidence';
   const hasMedia = Boolean(children);
   const textColumnClass = hasMedia
-    ? isImageRight
-      ? 'md:col-start-1 md:row-start-1 md:pr-8'
-      : 'md:col-start-2 md:row-start-1 md:pl-8'
+    ? isFullWidthEvidence
+      ? ''
+      : isImageRight
+        ? 'md:col-start-1 md:row-start-1 md:pr-8'
+        : 'md:col-start-2 md:row-start-1 md:pl-8'
     : '';
-  const mediaColumnClass = isImageRight ? 'md:col-start-2 md:row-start-1' : 'md:col-start-1 md:row-start-1';
+  const mediaColumnClass = isFullWidthEvidence
+    ? ''
+    : isImageRight
+      ? 'md:col-start-2 md:row-start-1'
+      : 'md:col-start-1 md:row-start-1';
 
   return (
     <motion.section
@@ -40,7 +47,7 @@ export function ProjectSection({
       className="mb-20 md:mb-24"
     >
       <div
-        className={`grid grid-cols-1 gap-8 md:gap-12 ${hasMedia ? 'md:grid-cols-2 md:items-start' : ''}`}
+        className={`grid grid-cols-1 gap-8 md:gap-12 ${hasMedia && !isFullWidthEvidence ? 'md:grid-cols-2 md:items-start' : ''}`}
       >
         {/* Heading + Insight */}
         <motion.div
@@ -55,13 +62,19 @@ export function ProjectSection({
             content={insight}
             paragraphClassName={`${uiTextStyles.insight} ${hasMedia ? 'mb-4 md:mb-5' : 'mb-4 md:mb-6'}`}
           />
-          {hasMedia && (
+          {hasMedia && !isFullWidthEvidence && (
             <div className="hidden md:block">
               <MarkdownText
                 content={description}
                 paragraphClassName={uiTextStyles.bodyParagraph}
               />
             </div>
+          )}
+          {(!hasMedia || isFullWidthEvidence) && (
+            <MarkdownText
+              content={description}
+              paragraphClassName={uiTextStyles.bodyParagraph}
+            />
           )}
         </motion.div>
 
@@ -78,19 +91,20 @@ export function ProjectSection({
           </motion.div>
         )}
 
-        {/* Description */}
-        <motion.div
-          initial={{ opacity: 0, x: isImageRight ? -20 : 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: standardDuration, ease: standardEase, delay: delay + 0.15 }}
-          className={`${hasMedia ? 'order-3 md:hidden' : ''} ${textColumnClass}`.trim()}
-        >
-          <MarkdownText
-            content={description}
-            paragraphClassName={uiTextStyles.bodyParagraph}
-          />
-        </motion.div>
+        {hasMedia && !isFullWidthEvidence && (
+          <motion.div
+            initial={{ opacity: 0, x: isImageRight ? -20 : 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: standardDuration, ease: standardEase, delay: delay + 0.15 }}
+            className={`order-3 md:hidden ${textColumnClass}`.trim()}
+          >
+            <MarkdownText
+              content={description}
+              paragraphClassName={uiTextStyles.bodyParagraph}
+            />
+          </motion.div>
+        )}
       </div>
     </motion.section>
   );

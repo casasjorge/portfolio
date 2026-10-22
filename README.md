@@ -132,6 +132,18 @@ export const project = {
   shortDescription: "Optional card summary",
   tags: ["astrophysics", "numerical-simulation"],
   heroImage: "/projects/my-project/hero.jpg",
+  heroImageMode: "hero",
+  openingSummary: {
+    problem: "The question or need the project addresses",
+    role: "Your contribution and relevant collaborators",
+    method: "The approach, tools, or evidence used",
+    result: "The supported outcome",
+    status: "Current status and important evidence limits"
+  },
+  mediaModes: {
+    "/projects/my-project/diagram.png": "technical-diagram",
+    "/projects/my-project/evidence.jpg": "full-width-evidence"
+  },
   gallery: ["/projects/my-project/detail-1.jpg"],
   technologies: ["Python", "NumPy"],
   links: {
@@ -154,6 +166,13 @@ Section body text.
 ```
 
 For the full authoring guide and parsing rules, see `src/content/projects/README.md`.
+
+#### Project briefs, media, and evidence
+
+- Use `openingSummary` to give a concise problem, role, method, result, and status before the long-form narrative. Omit it when those fields cannot be supported.
+- Use `heroImageMode` and `mediaModes` to select the presentation that fits each asset. Supported modes are `hero`, `technical-diagram`, `full-width-evidence`, `detail-crop`, `portrait`, `gallery`, and `video-still`. Technical diagrams and portraits preserve the complete image; use `detail-crop` only when cropping is intentional.
+- Attribute team work and collaborators, distinguish measured results from modeled or simulated results, and identify self-reported or anecdotal outcomes. Keep claims proportional to the linked evidence and state meaningful limitations.
+- Narrative images and gallery images already used as hero or inline section media are de-duplicated in the rendered project gallery.
 
 ### Optional project subpages
 
@@ -221,18 +240,21 @@ This lets you reorder cards or change featured selections without editing each p
 - Tailwind theme extensions: `tailwind.config.js`
 - Shared UI class tokens: `src/lib/ui.ts`
 - Layout primitives: `src/components/LayoutPrimitives.tsx`
+- The default presentation uses warm paper, ink, and copper colors with Libre Baskerville display text and Work Sans body text. Keep shared UI changes aligned with this restrained editorial system.
 
 ### Theme
 
 - Theme provider: `src/components/ThemeProvider.tsx`
 - Theme toggle (used in nav/footer shell areas): `src/components/ThemeToggle.tsx`
-- `next-themes` is configured for explicit dark/light toggle (`enableSystem={false}`).
+- `next-themes` is configured for an explicit light/dark toggle (`defaultTheme="light"`, `enableSystem={false}`).
 
 ### Motion and page transitions
 
 - Route enter animation: `src/app/template.tsx`
 - Shared animation variants/timings: `src/lib/animations.ts`
 - Many major sections/components use Framer Motion wrappers (`AnimatedSection`, project grids/cards, etc.)
+- The rotating homepage role title is an intentional feature; it cycles through role labels and pauses when reduced motion is requested. Preserve that behavior when adjusting the homepage.
+- Respect reduced-motion preferences for other non-essential animation and scrolling behavior.
 
 ## MDX Rendering and Rich Content
 

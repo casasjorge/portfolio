@@ -11,10 +11,11 @@ import { BlurImage } from '@/components/BlurImage';
 import { layoutClassNames } from '@/components/LayoutPrimitives';
 import { PageShell } from '@/components/PageShell';
 import { ProjectHeroMedia } from '@/components/ProjectHeroMedia';
+import { ProjectOpeningSummary } from '@/components/ProjectOpeningSummary';
 import { MarkdownText } from '@/components/MarkdownText';
 import { fadeInUp, standardDuration, standardEase } from '@/lib/animations';
 import { isVideoMedia, isYouTubeUrl } from '@/lib/media';
-import { shouldUseWhiteImageBg } from '@/lib/imagePresentation';
+import { getProjectImageMode, shouldUseWhiteImageBg } from '@/lib/imagePresentation';
 import { Project } from '@/lib/projects';
 import { Writing } from '@/lib/writing';
 import { formatDate, getDuration, accentVars } from '@/lib/utils';
@@ -121,6 +122,7 @@ export default function ProjectDetailClient({
             priority
             withTopOffset={!hasSubpageNav}
             onOpen={openLightboxBySrc}
+            mode={project.heroImageMode}
           />
         ) : (
           <div
@@ -155,24 +157,27 @@ export default function ProjectDetailClient({
               paragraphClassName={`${uiTextStyles.lead} mb-0`}
             />
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              <span className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.02] text-xs md:text-sm">
-                <span className="text-gray-400">Duration:</span>{' '}
+            <div className="mt-6 flex flex-wrap gap-2 font-mono text-[0.68rem] tracking-wide">
+              <span className="px-3 py-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--surface-paper)]">
+                <span className="text-[var(--text-secondary)]">Duration:</span>{' '}
                 <span className="font-semibold">{getDuration(project.dates.start, project.dates.end)}</span>
               </span>
-              <span className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.02] text-xs md:text-sm">
-                <span className="text-gray-400">Started:</span>{' '}
+              <span className="px-3 py-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--surface-paper)]">
+                <span className="text-[var(--text-secondary)]">Started:</span>{' '}
                 <span className="font-semibold">{formatDate(project.dates.start)}</span>
               </span>
-              <span className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.02] text-xs md:text-sm">
-                <span className="text-gray-400">Completed:</span>{' '}
+              <span className="px-3 py-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--surface-paper)]">
+                <span className="text-[var(--text-secondary)]">Completed:</span>{' '}
                 <span className="font-semibold">{formatDate(project.dates.end)}</span>
               </span>
-              <span className="px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.02] text-xs md:text-sm">
-                <span className="text-gray-400">Category:</span>{' '}
+              <span className="px-3 py-1.5 rounded-full border border-[var(--border-subtle)] bg-[var(--surface-paper)]">
+                <span className="text-[var(--text-secondary)]">Category:</span>{' '}
                 <span className="font-semibold capitalize">{project.tags[0]}</span>
               </span>
             </div>
+            {project.openingSummary && (
+              <ProjectOpeningSummary summary={project.openingSummary} />
+            )}
           </motion.div>
 
           {/* Full Description / Narrative Sections */}
@@ -193,6 +198,7 @@ export default function ProjectDetailClient({
               <ProjectSectionList
                 sections={project.sections}
                 onOpenImage={openLightboxBySrc}
+                mediaModes={project.mediaModes}
                 className="space-y-16 mt-16"
               />
             </div>
@@ -301,8 +307,11 @@ export default function ProjectDetailClient({
                 {galleryMedia.map((image, idx) => (
                   <motion.div
                     key={image}
-                    className={`relative aspect-[4/3] rounded-lg overflow-hidden border border-white/10 ${
-                      shouldUseWhiteImageBg(image) ? 'bg-white' : 'bg-black/20'
+                    className={`relative aspect-[4/3] rounded-lg overflow-hidden border border-[var(--border-subtle)] ${
+                      shouldUseWhiteImageBg(image) ||
+                      getProjectImageMode(image, project.mediaModes, 'gallery') === 'technical-diagram'
+                        ? 'bg-[var(--surface-paper)]'
+                        : 'bg-[var(--surface-muted)]'
                     }`}
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -310,7 +319,7 @@ export default function ProjectDetailClient({
                     transition={{ duration: standardDuration, ease: standardEase, delay: idx * 0.1 }}
                   >
                     {isVideoMedia(image) ? (
-                      <video className="h-full w-full object-cover" controls playsInline>
+                      <video className="h-full w-full bg-black object-contain" controls playsInline>
                         <source src={image} />
                         Your browser does not support the video tag.
                       </video>
@@ -325,7 +334,13 @@ export default function ProjectDetailClient({
                           src={image}
                           alt={`${project.title} image ${idx + 1}`}
                           fill
-                          className="object-contain p-2 hover:scale-[1.03] transition-transform duration-300"
+                          className={`p-2 transition-transform duration-300 hover:scale-[1.03] ${
+                            ['detail-crop', 'video-still'].includes(
+                              getProjectImageMode(image, project.mediaModes, 'gallery')
+                            )
+                              ? 'object-cover'
+                              : 'object-contain'
+                          }`}
                         />
                       </button>
                     )}
@@ -343,7 +358,13 @@ export default function ProjectDetailClient({
                 <video
                   controls
                   className="w-full h-full"
-                  poster="/video-poster.png"
+                  poster={
+                    project.heroImage &&
+                    !isVideoMedia(project.heroImage) &&
+                    !isYouTubeUrl(project.heroImage)
+                      ? project.heroImage
+                      : undefined
+                  }
                 >
                   <source src={project.videoDemo} type="video/mp4" />
                   Your browser does not support the video tag.

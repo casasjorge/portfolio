@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef, ComponentType } from 'react';
-import { shouldUseWhiteImageBg } from '@/lib/imagePresentation';
+import { getProjectImageMode, shouldUseWhiteImageBg } from '@/lib/imagePresentation';
 import { uiTextStyles } from '@/lib/ui';
 
 type MDXComponentMap = Record<string, ComponentType<Record<string, unknown>>>;
@@ -127,11 +127,24 @@ function TD(props: ComponentPropsWithoutRef<'td'>) {
 function Img(props: ComponentPropsWithoutRef<'img'>) {
   const { className, alt = '', ...rest } = props;
   const useWhiteBg = shouldUseWhiteImageBg(props.src);
+  const mode = props.src ? getProjectImageMode(props.src, {}, 'full-width-evidence') : 'full-width-evidence';
+  const modeClass =
+    mode === 'detail-crop'
+      ? 'aspect-[4/3] object-cover'
+      : mode === 'portrait'
+        ? 'mx-auto max-h-[42rem] w-auto object-contain'
+        : mode === 'video-still'
+          ? 'aspect-video w-full object-cover'
+        : 'h-auto object-contain';
   return (
     <img
       alt={alt}
-      className={`block max-w-full h-auto rounded-[1.25rem] my-6 mx-auto ${
+      className={`block max-w-full rounded-[1.25rem] my-6 mx-auto ${
+        mode === 'technical-diagram' ? 'border border-[var(--border-subtle)] bg-[var(--surface-paper)] p-2' : ''
+      } ${
         useWhiteBg ? 'bg-white ' : ''
+      }${modeClass} ${
+        mode === 'full-width-evidence' ? 'w-full' : ''
       }${className || ''}`.trim()}
       loading={props.loading ?? 'lazy'}
       {...rest}
