@@ -23,18 +23,25 @@ export function ProjectHeroMedia({
 }: ProjectHeroMediaProps) {
   const prefersReducedMotion = useReducedMotion();
   const isVideo = /\.(mp4|mov|webm)$/i.test(media);
+  const isTechnical = mode === 'technical-diagram';
+  const isPortrait = mode === 'portrait';
   const fitClass =
-    mode === 'technical-diagram' || mode === 'portrait'
-      ? 'object-contain p-4'
+    isTechnical || isPortrait
+      ? 'object-contain'
       : 'object-cover';
   const frameClass =
-    mode === 'technical-diagram' || mode === 'portrait'
+    isTechnical || isPortrait
       ? 'bg-[var(--surface-paper)]'
       : 'bg-[var(--surface-muted)]';
+  const sizeClass = isTechnical
+    ? 'mx-auto aspect-video w-full max-w-6xl'
+    : isPortrait
+      ? 'mx-auto aspect-[4/5] w-full max-w-3xl'
+      : 'h-80 w-full md:h-[430px]';
 
   return (
     <div
-      className={`relative w-full h-80 md:h-[430px] overflow-hidden ${frameClass} ${
+      className={`relative overflow-hidden ${sizeClass} ${frameClass} ${
         withTopOffset ? 'mt-[var(--nav-height)]' : ''
       }`}
     >

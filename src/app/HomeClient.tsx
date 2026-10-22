@@ -165,13 +165,13 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
     <PageShell>
         {/* Hero Section */}
         <motion.section
-          className="editorial-home-hero min-h-screen relative overflow-hidden flex flex-col justify-center"
+          className="editorial-home-hero min-h-screen relative isolate overflow-hidden flex flex-col justify-center"
           variants={heroStagger}
           initial="initial"
           animate="animate"
         >
           {/* Hero Background Media - Full Bleed */}
-          <div className="editorial-home-wash absolute inset-0 -z-10" />
+          <div className="editorial-home-wash absolute inset-0 z-10" />
           {showHeroVideo ? (
             <video
               autoPlay
@@ -180,7 +180,7 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
               playsInline
               preload="metadata"
               poster={MAIN_TAB_HERO_MEDIA.homePoster}
-              className="absolute inset-0 w-full h-full object-cover opacity-[0.12] mix-blend-multiply -z-10"
+              className="absolute inset-0 z-0 h-full w-full object-cover opacity-40"
               aria-hidden="true"
             >
               <source src={MAIN_TAB_HERO_MEDIA.homeWebm} type="video/webm" />
@@ -189,7 +189,7 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
           ) : null}
 
           {/* Content Container - Centered with max-width */}
-          <Container className="w-full py-20">
+          <Container className="relative z-20 w-full py-20">
             <motion.div variants={heroReveal} className="max-w-4xl text-center sm:text-left">
               <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent-copper)]">
                 Research / Engineering / Communication

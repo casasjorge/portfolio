@@ -12,12 +12,12 @@ module.exports = {
         body: ['var(--font-body)', 'system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {
-        dark: '#0a0e27',
-        darker: '#050811',
-        ink: '#0b0f1a',
-        mist: '#c7ccd6',
-        glow: '#a34f2b',
-        neon: '#b8653f',
+        dark: '#0b1420',
+        darker: '#07101a',
+        ink: '#0b1420',
+        mist: '#b3bdc8',
+        glow: '#874326',
+        neon: '#d08b65',
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-in',

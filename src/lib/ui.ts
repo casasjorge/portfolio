@@ -54,21 +54,21 @@ const buttonBase =
 
 export const uiButtonStyles = {
   primaryLg:
-    `${buttonBase} h-12 px-12 border-2 border-transparent bg-cyan-500 text-dark hover:bg-cyan-400`,
+    `${buttonBase} h-12 px-12 border-2 border-[var(--button-primary-bg)] bg-[var(--button-primary-bg)] text-[var(--button-primary-fg)] hover:bg-[var(--button-primary-hover)]`,
   outlineLg:
-    `${buttonBase} h-12 px-12 border-2 border-cyan-500/70 text-cyan-300 hover:bg-cyan-500/10 hover:border-cyan-400`,
+    `${buttonBase} h-12 px-12 border-2 border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--surface-muted)] hover:border-[var(--accent-copper)]`,
   softLg:
-    `${buttonBase} h-12 px-12 border border-cyan-400/40 bg-cyan-500/25 text-cyan-300 hover:bg-cyan-500/35 hover:border-cyan-300/60`,
+    `${buttonBase} h-12 px-12 border border-[var(--accent-copper)] bg-[var(--surface-muted)] text-[var(--text-primary)] hover:bg-[var(--surface-paper)]`,
   primaryMd:
-    `${buttonBase} px-6 py-3 bg-cyan-500 text-dark hover:bg-cyan-400`,
+    `${buttonBase} px-6 py-3 bg-[var(--button-primary-bg)] text-[var(--button-primary-fg)] hover:bg-[var(--button-primary-hover)]`,
   outlineMd:
-    `${buttonBase} px-6 py-3 border border-cyan-500/70 text-cyan-300 hover:bg-cyan-500/10 hover:border-cyan-400`,
+    `${buttonBase} px-6 py-3 border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--surface-muted)] hover:border-[var(--accent-copper)]`,
   primarySm:
-    'inline-flex items-center justify-center gap-2 px-3 py-1.5 bg-cyan-500 text-dark text-xs font-semibold rounded-md hover:bg-cyan-400 transition-all duration-300',
+    'inline-flex items-center justify-center gap-2 px-3 py-1.5 bg-[var(--button-primary-bg)] text-[var(--button-primary-fg)] text-xs font-semibold rounded-md hover:bg-[var(--button-primary-hover)] transition-all duration-300',
   outlineSm:
-    'inline-flex items-center justify-center gap-2 px-3 py-1.5 border border-cyan-500/70 text-cyan-300 text-xs font-semibold rounded-md hover:bg-cyan-500/10 hover:border-cyan-400 transition-all duration-300',
+    'inline-flex items-center justify-center gap-2 px-3 py-1.5 border border-[var(--border-subtle)] text-[var(--text-primary)] text-xs font-semibold rounded-md hover:bg-[var(--surface-muted)] hover:border-[var(--accent-copper)] transition-all duration-300',
   writingPrimary:
-    'inline-flex items-center justify-center gap-2 px-4 py-2 bg-cyan-500 text-dark text-xs font-semibold rounded-lg hover:bg-cyan-400 transition-all duration-300',
+    'inline-flex items-center justify-center gap-2 px-4 py-2 bg-[var(--button-primary-bg)] text-[var(--button-primary-fg)] text-xs font-semibold rounded-lg hover:bg-[var(--button-primary-hover)] transition-all duration-300',
   writingOutline:
-    'inline-flex items-center justify-center gap-2 px-4 py-2 border border-cyan-500/70 text-cyan-300 text-xs font-semibold rounded-lg hover:bg-cyan-500/10 hover:border-cyan-400 transition-all duration-300',
+    'inline-flex items-center justify-center gap-2 px-4 py-2 border border-[var(--border-subtle)] text-[var(--text-primary)] text-xs font-semibold rounded-lg hover:bg-[var(--surface-muted)] hover:border-[var(--accent-copper)] transition-all duration-300',
 } as const;

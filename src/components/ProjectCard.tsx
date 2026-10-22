@@ -127,7 +127,7 @@ export function ProjectCard({
               className={`transition-transform duration-300 group-hover:scale-[1.03] ${
                 project.heroImageMode === 'technical-diagram' ||
                 project.heroImageMode === 'portrait'
-                  ? 'bg-[var(--surface-paper)] object-contain p-3'
+                  ? 'bg-[var(--surface-paper)] object-contain p-1'
                   : 'object-cover'
               }`}
               sizes={isFeatured ? '(max-width: 768px) 100vw, 66vw' : '(max-width: 768px) 100vw, 33vw'}

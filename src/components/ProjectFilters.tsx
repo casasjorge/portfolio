@@ -17,7 +17,9 @@ export function ProjectFilters({ tags, selectedTag, onSelectTag }: ProjectFilter
 
   const getPillClass = (isActive: boolean) =>
     `px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap shrink-0 ${
-      isActive ? 'bg-cyan-500 text-dark' : 'bg-white/10 text-gray-300 hover:bg-white/20'
+      isActive
+        ? 'bg-[var(--button-primary-bg)] text-[var(--button-primary-fg)]'
+        : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:bg-[var(--surface-paper)]'
     }`;
 
   useEffect(() => {
@@ -109,8 +111,8 @@ export function ProjectFilters({ tags, selectedTag, onSelectTag }: ProjectFilter
               onClick={() => setIsFilterMenuOpen((prev) => !prev)}
               className={`px-4 py-2 rounded-full border transition-colors flex items-center gap-2 text-sm font-medium whitespace-nowrap ${
                 selectedTag
-                  ? 'border-cyan-500/70 text-cyan-300 bg-cyan-500/10'
-                  : 'border-white/20 text-gray-300 bg-white/10 hover:bg-white/20'
+                  ? 'border-[var(--accent-copper)] text-[var(--text-primary)] bg-[var(--surface-muted)]'
+                  : 'border-[var(--border-subtle)] text-[var(--text-secondary)] bg-[var(--surface-muted)] hover:bg-[var(--surface-paper)]'
               }`}
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -131,7 +133,7 @@ export function ProjectFilters({ tags, selectedTag, onSelectTag }: ProjectFilter
                     }}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
                       selectedTag === tag
-                        ? 'bg-cyan-500 text-dark'
+                        ? 'bg-[var(--button-primary-bg)] text-[var(--button-primary-fg)]'
                         : 'text-gray-300 hover:bg-white/10'
                     }`}
                     role="menuitem"

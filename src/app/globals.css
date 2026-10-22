@@ -15,16 +15,21 @@ html {
 /* ─── Theme custom properties ─── */
 :root {
   color-scheme: light;
-  --bg-primary: #f3efe5;
-  --bg-secondary: #e8e1d4;
-  --text-primary: #28251f;
-  --text-secondary: #625d54;
-  --glass-bg: rgba(250, 247, 239, 0.96);
-  --glass-border: rgba(73, 64, 52, 0.18);
-  --surface-paper: #fbf8f0;
-  --surface-muted: #e9e3d8;
-  --border-subtle: rgba(73, 64, 52, 0.2);
-  --accent-copper: #a34f2b;
+  --ink-navy: #0b1420;
+  --graphite: #24282d;
+  --button-primary-bg: #0b1420;
+  --button-primary-fg: #f3f0e9;
+  --button-primary-hover: #24282d;
+  --bg-primary: #f3f0e9;
+  --bg-secondary: #eae8e2;
+  --text-primary: #0b1420;
+  --text-secondary: #4f5b68;
+  --glass-bg: rgba(250, 249, 246, 0.96);
+  --glass-border: rgba(11, 20, 32, 0.16);
+  --surface-paper: #faf9f6;
+  --surface-muted: #e8eaed;
+  --border-subtle: rgba(11, 20, 32, 0.18);
+  --accent-copper: #874326;
   --nav-height: 4rem;
   --section-y: 5.5rem;
   --section-y-tight: 4rem;
@@ -35,29 +40,39 @@ html {
 
 .light {
   color-scheme: light;
-  --bg-primary: #f3efe5;
-  --bg-secondary: #e8e1d4;
-  --text-primary: #28251f;
-  --text-secondary: #625d54;
-  --glass-bg: rgba(250, 247, 239, 0.96);
-  --glass-border: rgba(73, 64, 52, 0.18);
-  --surface-paper: #fbf8f0;
-  --surface-muted: #e9e3d8;
-  --border-subtle: rgba(73, 64, 52, 0.2);
-  --accent-copper: #a34f2b;
+  --ink-navy: #0b1420;
+  --graphite: #24282d;
+  --button-primary-bg: #0b1420;
+  --button-primary-fg: #f3f0e9;
+  --button-primary-hover: #24282d;
+  --bg-primary: #f3f0e9;
+  --bg-secondary: #eae8e2;
+  --text-primary: #0b1420;
+  --text-secondary: #4f5b68;
+  --glass-bg: rgba(250, 249, 246, 0.96);
+  --glass-border: rgba(11, 20, 32, 0.16);
+  --surface-paper: #faf9f6;
+  --surface-muted: #e8eaed;
+  --border-subtle: rgba(11, 20, 32, 0.18);
+  --accent-copper: #874326;
 }
 
 .dark {
   color-scheme: dark;
-  --bg-primary: #191a18;
-  --bg-secondary: #111210;
-  --text-primary: #eee8dc;
-  --text-secondary: #b8afa0;
-  --glass-bg: rgba(34, 34, 30, 0.92);
-  --glass-border: rgba(230, 218, 198, 0.18);
-  --surface-paper: #24231f;
-  --surface-muted: #2c2a25;
-  --border-subtle: rgba(230, 218, 198, 0.22);
+  --ink-navy: #0b1420;
+  --graphite: #24282d;
+  --button-primary-bg: #0b1420;
+  --button-primary-fg: #f3f0e9;
+  --button-primary-hover: #24282d;
+  --bg-primary: #0b1420;
+  --bg-secondary: #101d2b;
+  --text-primary: #f3f0e9;
+  --text-secondary: #b3bdc8;
+  --glass-bg: rgba(16, 29, 43, 0.96);
+  --glass-border: rgba(243, 240, 233, 0.16);
+  --surface-paper: #111e2d;
+  --surface-muted: #1b2938;
+  --border-subtle: rgba(243, 240, 233, 0.18);
   --accent-copper: #d08b65;
 }
 
@@ -202,18 +217,29 @@ button {
 
 .editorial-home-hero {
   background: var(--bg-primary);
+  isolation: isolate;
 }
 
 .editorial-home-wash {
   background:
-    linear-gradient(115deg, rgba(163, 79, 43, 0.08), transparent 46%),
-    linear-gradient(180deg, var(--bg-primary), var(--bg-secondary));
+    linear-gradient(
+      90deg,
+      rgba(243, 240, 233, 0.86) 0%,
+      rgba(243, 240, 233, 0.68) 48%,
+      rgba(243, 240, 233, 0.28) 100%
+    ),
+    linear-gradient(180deg, rgba(243, 240, 233, 0.08), rgba(243, 240, 233, 0.24));
 }
 
 .dark .editorial-home-wash {
   background:
-    linear-gradient(115deg, rgba(208, 139, 101, 0.1), transparent 48%),
-    linear-gradient(180deg, var(--bg-primary), var(--bg-secondary));
+    linear-gradient(
+      90deg,
+      rgba(11, 20, 32, 0.86) 0%,
+      rgba(11, 20, 32, 0.68) 48%,
+      rgba(11, 20, 32, 0.28) 100%
+    ),
+    linear-gradient(180deg, rgba(11, 20, 32, 0.08), rgba(11, 20, 32, 0.24));
 }
 
 .editorial-scroll-cue {
@@ -222,7 +248,7 @@ button {
 
 /* Light-mode utility tone corrections for readability */
 .light .text-gray-300 {
-  color: #403b33 !important;
+  color: var(--graphite) !important;
 }
 
 .light .text-gray-400 {
@@ -230,23 +256,27 @@ button {
 }
 
 .light .text-gray-500 {
-  color: #777064 !important;
+  color: var(--text-secondary) !important;
 }
 
 .light .text-cyan-200 {
-  color: var(--accent-copper) !important;
+  color: var(--text-secondary) !important;
 }
 
 .light .text-cyan-300 {
-  color: var(--accent-copper) !important;
+  color: var(--text-secondary) !important;
 }
 
 .light .text-cyan-400 {
-  color: var(--accent-copper) !important;
+  color: var(--text-secondary) !important;
 }
 
 .light .text-cyan-600 {
-  color: var(--accent-copper) !important;
+  color: var(--text-secondary) !important;
+}
+
+.light [class~="text-cyan-300/90"] {
+  color: var(--text-secondary) !important;
 }
 
 .light .hover\:text-cyan-200:hover {
@@ -266,25 +296,29 @@ button {
 }
 
 .light .bg-cyan-500 {
-  background-color: var(--accent-copper) !important;
+  background-color: var(--button-primary-bg) !important;
 }
 
 .light .hover\:bg-cyan-400:hover {
-  background-color: #874021 !important;
+  background-color: var(--button-primary-hover) !important;
 }
 
 .light .border-cyan-500,
 .light .border-cyan-500\/70,
 .light .border-cyan-400\/60,
 .light .border-cyan-400\/70 {
-  border-color: color-mix(in srgb, var(--accent-copper) 58%, transparent) !important;
+  border-color: var(--border-subtle) !important;
 }
 
 .dark .text-cyan-200,
 .dark .text-cyan-300,
 .dark .text-cyan-400,
 .dark .text-cyan-600 {
-  color: var(--accent-copper) !important;
+  color: var(--text-secondary) !important;
+}
+
+.dark [class~="text-cyan-300/90"] {
+  color: var(--text-secondary) !important;
 }
 
 .dark .hover\:text-cyan-200:hover,
@@ -295,18 +329,18 @@ button {
 }
 
 .dark .bg-cyan-500 {
-  background-color: #b8653f !important;
+  background-color: var(--button-primary-bg) !important;
 }
 
 .dark .hover\:bg-cyan-400:hover {
-  background-color: #d08b65 !important;
+  background-color: var(--button-primary-hover) !important;
 }
 
 .dark .border-cyan-500,
 .dark .border-cyan-500\/70,
 .dark .border-cyan-400\/60,
 .dark .border-cyan-400\/70 {
-  border-color: color-mix(in srgb, var(--accent-copper) 58%, transparent) !important;
+  border-color: var(--border-subtle) !important;
 }
 
 .dark .bg-cyan-500\/10,
@@ -328,51 +362,51 @@ button {
 }
 
 .light .hover\:bg-white\/20:hover {
-  background-color: rgba(15, 23, 42, 0.14) !important;
+  background-color: color-mix(in srgb, var(--ink-navy) 10%, var(--surface-paper)) !important;
 }
 
 .light .border-cyan-500\/20 {
-  border-color: rgba(163, 79, 43, 0.24) !important;
+  border-color: var(--border-subtle) !important;
 }
 
 .light .border-cyan-400\/40 {
-  border-color: rgba(163, 79, 43, 0.34) !important;
+  border-color: var(--border-subtle) !important;
 }
 
 .light .border-cyan-400\/50 {
-  border-color: rgba(163, 79, 43, 0.4) !important;
+  border-color: var(--border-subtle) !important;
 }
 
 .light .border-cyan-400\/60 {
-  border-color: rgba(163, 79, 43, 0.46) !important;
+  border-color: var(--border-subtle) !important;
 }
 
 .light .bg-cyan-500\/10 {
-  background-color: rgba(163, 79, 43, 0.08) !important;
+  background-color: color-mix(in srgb, var(--accent-copper) 8%, transparent) !important;
 }
 
 .light .bg-cyan-500\/20 {
-  background-color: rgba(163, 79, 43, 0.12) !important;
+  background-color: color-mix(in srgb, var(--accent-copper) 12%, transparent) !important;
 }
 
 .light .bg-cyan-500\/25 {
-  background-color: rgba(163, 79, 43, 0.15) !important;
+  background-color: color-mix(in srgb, var(--accent-copper) 15%, transparent) !important;
 }
 
 .light .bg-cyan-500\/35 {
-  background-color: rgba(163, 79, 43, 0.2) !important;
+  background-color: color-mix(in srgb, var(--accent-copper) 20%, transparent) !important;
 }
 
 .light .hover\:bg-cyan-500\/10:hover {
-  background-color: rgba(163, 79, 43, 0.11) !important;
+  background-color: color-mix(in srgb, var(--accent-copper) 11%, transparent) !important;
 }
 
 .light .hover\:bg-cyan-500\/20:hover {
-  background-color: rgba(163, 79, 43, 0.16) !important;
+  background-color: color-mix(in srgb, var(--accent-copper) 16%, transparent) !important;
 }
 
 .light .hover\:bg-cyan-500\/35:hover {
-  background-color: rgba(163, 79, 43, 0.24) !important;
+  background-color: color-mix(in srgb, var(--accent-copper) 24%, transparent) !important;
 }
 
 /* Enhanced glow effects */
