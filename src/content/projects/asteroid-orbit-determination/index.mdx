@@ -8,9 +8,7 @@
     "early-work"
   ],
   "heroImage": "/projects/asteroid-orbit-determination/hero.jpg",
-  "gallery": [
-    "/projects/asteroid-orbit-determination/"
-  ],
+  "gallery": [],
   "technologies": [
     "Python",
     "Astrometry",
@@ -20,6 +18,7 @@
     "Telescope Instrumentation"
   ],
   "links": {
+    "paper": "/projects/asteroid-orbit-determination/Orbital Determination Research Paper.pdf",
     "mpc": ""
   },
   "dates": {
@@ -29,8 +28,32 @@
   "draft": false,
 }
 
-During the Summer Science Program in Astrophysics, as a three-person research team, we focused on the observation and orbit determination of the near-Earth asteroid 1991 PM5. Over multiple nights of observation, we collected astrometric and photometric data using a 0.36 m Schmidt-Cassegrain telescope and CCD imaging system.
+During the Summer Science Program in Astrophysics, I worked with P. Li and A. Zhuang on a five-week observing and orbit-determination study of the near-Earth asteroid 1991 PM5. The project began with a practical question: how do three students turn faint CCD images and imperfect observing conditions into a defensible heliocentric orbit?
 
-I developed custom Python pipelines for centroiding, plate reduction, and differential photometry, achieving arcsecond-level astrometric precision. Using a fourth-order implementation of the Method of Gauss with light-time correction, I computed heliocentric orbital elements and refined them through differential correction and Monte Carlo uncertainty analysis.
+Our team carried the work from telescope setup through image calibration, reference-star plate reduction, asteroid centroiding, and an iterative Gauss-method solution. The result was a coauthored technical report that records the full observation-to-orbit chain, along with comparisons to JPL Horizons and an uncertainty analysis. It was my first sustained encounter with scientific data that could not be separated from its measurement conditions, modeling assumptions, and numerical sensitivity.
 
-The final orbital solution was validated against JPL Horizons and submitted to the Minor Planet Center, where it was published and archived. This project marked my first exposure to real scientific uncertainty, numerical instability, and the rigor required for publishable astronomical results.
+## Adapting the Observation Plan
+**Insight:** Better inference started with changing the data acquisition, not tuning the final model.
+
+We observed with Etscorn Observatory's 355.5 mm C-14 Schmidt-Cassegrain telescope, a 3,911 mm focal length, and a 1024 × 1024 SBIG CCD. Early 90-second visual-filter exposures left the reduced asteroid signal too faint, so the team moved to 120-second clear-filter exposures. That change is a useful reminder that a numerical pipeline cannot recover information the detector never captured.
+
+![The observing team working at the telescope](/projects/asteroid-orbit-determination/IMG_4621.jpg)
+
+*Observing was a team effort; the report is credited to J. Casas, P. Li, and A. Zhuang.*
+
+## From Pixels to Sky Coordinates
+**Insight:** Centroids only become astrometry after calibration, plate reduction, and careful time handling.
+
+The reduction chain used bias, dark, and flat-field calibration before matching reference stars and locating the asteroid centroid. Plate constants mapped detector coordinates into right ascension and declination, while observation times and Earth-Sun vectors from JPL Horizons supplied the geometry needed by the orbital solver. Each stage introduced its own error source, so image noise, catalogue fit, timing, and model residuals had to remain conceptually distinct.
+
+## Solving for the Orbit
+**Insight:** A Gauss solution is conditional on the selected observations and the conventions used to refine it.
+
+Using three observations at a time, the iterative Method of Gauss produced a heliocentric state estimate that could be converted into classical orbital elements. Light-time correction and subsequent refinement connected the idealized geometry to the measured observing sequence. Comparing different observation triplets and the resulting residuals was as important as reporting one final element set, because a sparse arc does not determine an orbit without sensitivity to measurement and initialization choices.
+
+![Summer Science Program observing work](/projects/asteroid-orbit-determination/IMG_4633.jpg)
+
+## Uncertainty and Evidence Boundary
+**Insight:** A large Monte Carlo sample describes the assumed error model; it does not erase systematic uncertainty.
+
+The project used Monte Carlo perturbations to examine how measurement uncertainty propagated into the recovered orbital elements, then compared the solution with JPL Horizons. The linked report is the strongest public artifact for the methods and team authorship. Minor Planet Center archival attribution and any precision figure should be independently cross-checked before being presented as verified publication or sole-author work.

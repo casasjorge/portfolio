@@ -37,7 +37,7 @@ This teaching project was developed to address a recurring gap in machining educ
 
 Rather than optimizing for specific tools or machines, the framework emphasizes transferable reasoning applicable across different CNC platforms and materials. Topics include spindle power curves, thermal limits, tool engagement dynamics, chip thinning, and the tradeoffs between high-speed and high-efficiency machining.
 
-The series enabled students to push machines confidently and safely, replacing fear-driven conservatism with informed judgment. The curriculum has since influenced shop SOPs and advanced workshop offerings.
+The goal was to help students replace fear-driven conservatism with bounded, explainable process tuning. The deck is a public record of the curriculum; the reported influence on shop discussions and later workshops is practical teaching context rather than a measured educational study.
 
 ## Series Design Goal
 **Insight:** Replace memorized feeds-and-speeds with portable first-principles reasoning
@@ -58,11 +58,32 @@ The middle lectures connect spindle power curves, torque at low RPM, radial chip
 *Representative visual from the power/engagement portion of the series*
 
 ## Operational Impact in the Shop
-**Insight:** Students moved from conservative trial-and-error to bounded, explainable process tuning
+**Insight:** Machine feedback closes the loop between a calculated starting point and a reliable process
 
-After deployment, students were able to justify parameter changes with simple calculations and machine constraints. The material was reused in SOP discussions and advanced workshop sessions, improving consistency across different machines and operators.
+In workshops, students used simple calculations and machine constraints to justify parameter changes, then compared those expectations with spindle load, sound, chip formation, surface finish, and tool condition. The material was later reused in SOP discussions and advanced sessions. Those observations support the curriculum's practical use, but they do not substitute for a controlled assessment of learning outcomes.
 
 ![Operational Impact in the Shop](/projects/advanced-machining-fundamentals/lecture-pages/page-058.png)
 
 *Later-stage lecture material used during advanced instruction*
+
+## A Reusable Decision Sequence
+**Insight:** Separate instantaneous cutting demand from the machine's time-dependent thermal capacity
+
+A representative calculation moves from material and tool limits to surface speed, spindle speed, chip load, feed, engagement, and estimated power. Two relationships keep the chain visible:
+
+$$
+v_f = n z f_z
+$$
+
+and
+
+$$
+P = \tau \omega
+$$
+
+The resulting cutting-power demand should be compared with the spindle's speed-dependent power and torque curves. Duty cycle is then treated as a duration and thermal-capacity constraint; it does not automatically reduce the instantaneous power required by the cut. This distinction is important when translating a short, aggressive toolpath into a safe continuous process.
+
+![Worked examples connect cutting mechanics to CAM choices](/projects/advanced-machining-fundamentals/lecture-pages/page-023.png)
+
+*The full 70-page deck moves from mechanics and machine limits into practical CAM strategy.*
 

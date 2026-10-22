@@ -14,6 +14,7 @@ import { ProjectHeroMedia } from '@/components/ProjectHeroMedia';
 import { MarkdownText } from '@/components/MarkdownText';
 import { fadeInUp, standardDuration, standardEase } from '@/lib/animations';
 import { isVideoMedia, isYouTubeUrl } from '@/lib/media';
+import { shouldUseWhiteImageBg } from '@/lib/imagePresentation';
 import { Project } from '@/lib/projects';
 import { Writing } from '@/lib/writing';
 import { formatDate, getDuration, accentVars } from '@/lib/utils';
@@ -32,7 +33,34 @@ export default function ProjectDetailClient({
   children,
 }: ProjectDetailClientProps) {
   const hasSubpageNav = Boolean(project.subpages && project.subpages.length > 0);
+  const narrativeMedia = useMemo(
+    () =>
+      new Set(
+        (project.sections ?? []).flatMap((section) => {
+          if (section.mediaItems && section.mediaItems.length > 0) {
+            return section.mediaItems.map((item) => item.src);
+          }
+          return section.media ? [section.media] : [];
+        })
+      ),
+    [project.sections]
+  );
+  const galleryMedia = useMemo(() => {
+    const usedMedia = new Set([
+      ...narrativeMedia,
+      project.heroImage,
+      project.videoDemo,
+    ].filter((media): media is string => Boolean(media)));
+
+    return Array.from(new Set(project.gallery)).filter((media) => !usedMedia.has(media));
+  }, [narrativeMedia, project.gallery, project.heroImage, project.videoDemo]);
   const lightboxImages = useMemo(() => {
+    const heroImages =
+      project.heroImage &&
+      !isVideoMedia(project.heroImage) &&
+      !isYouTubeUrl(project.heroImage)
+        ? [project.heroImage]
+        : [];
     const sectionImages = (project.sections ?? [])
       .flatMap((section) => {
         if (section.mediaItems && section.mediaItems.length > 0) {
@@ -41,11 +69,11 @@ export default function ProjectDetailClient({
         return section.media ? [section.media] : [];
       })
       .filter((media) => !isVideoMedia(media) && !isYouTubeUrl(media));
-    const galleryImages = (project.gallery ?? []).filter(
+    const galleryImages = galleryMedia.filter(
       (media) => !isVideoMedia(media) && !isYouTubeUrl(media)
     );
-    return Array.from(new Set([...sectionImages, ...galleryImages]));
-  }, [project.gallery, project.sections]);
+    return Array.from(new Set([...heroImages, ...sectionImages, ...galleryImages]));
+  }, [galleryMedia, project.heroImage, project.sections]);
   const {
     lightboxIndex,
     setLightboxIndex,
@@ -92,6 +120,7 @@ export default function ProjectDetailClient({
             alt={project.title}
             priority
             withTopOffset={!hasSubpageNav}
+            onOpen={openLightboxBySrc}
           />
         ) : (
           <div
@@ -265,14 +294,16 @@ export default function ProjectDetailClient({
           </motion.div>
 
           {/* Gallery */}
-          {project.gallery.length > 0 && (
+          {galleryMedia.length > 0 && (
             <motion.div variants={fadeInUp} className="mb-12">
               <h2 className="text-2xl font-bold mb-6">Gallery</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
-                {project.gallery.map((image, idx) => (
+                {galleryMedia.map((image, idx) => (
                   <motion.div
-                    key={idx}
-                    className="relative aspect-[4/3] rounded-lg overflow-hidden"
+                    key={image}
+                    className={`relative aspect-[4/3] rounded-lg overflow-hidden border border-white/10 ${
+                      shouldUseWhiteImageBg(image) ? 'bg-white' : 'bg-black/20'
+                    }`}
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
@@ -294,7 +325,7 @@ export default function ProjectDetailClient({
                           src={image}
                           alt={`${project.title} image ${idx + 1}`}
                           fill
-                          className="object-cover hover:scale-110 transition-transform duration-300"
+                          className="object-contain p-2 hover:scale-[1.03] transition-transform duration-300"
                         />
                       </button>
                     )}
