@@ -27,7 +27,7 @@ export function ProjectHeroMedia({
   const isPortrait = mode === 'portrait';
   const fitClass =
     isTechnical
-      ? 'object-contain'
+      ? 'object-cover'
       : isPortrait
         ? 'object-cover'
         : 'object-cover';

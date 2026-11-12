@@ -275,14 +275,14 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
 
           <div ref={aboutRowRef} className="flex flex-col md:flex-row gap-6 md:items-stretch">
             <div
-              className="relative w-full aspect-[3/4] rounded-lg overflow-hidden border border-[var(--border-subtle)] bg-[var(--surface-paper)] md:shrink-0 md:w-[320px] md:h-[426px]"
+              className="relative w-full aspect-square rounded-lg overflow-hidden border border-[var(--border-subtle)] bg-[var(--surface-paper)] md:shrink-0 md:w-[320px] md:h-[320px]"
               style={aboutImageStyle}
             >
               <Image
                 src="/projects/columbia-hybrid-rocket/jorge-portrait.jpg"
                 alt="Jorge"
                 fill
-                className="object-contain object-center"
+                className="object-cover object-center"
                 priority
                 sizes="(max-width: 768px) 100vw, 45vw"
               />
