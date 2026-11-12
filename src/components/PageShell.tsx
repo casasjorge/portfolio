@@ -8,6 +8,7 @@ import { clsx } from '@/lib/utils';
 interface PageShellProps {
   children: ReactNode;
   topSlot?: ReactNode;
+  heroSlot?: ReactNode;
   rootClassName?: string;
   mainClassName?: string;
   rootStyle?: CSSProperties;
@@ -16,6 +17,7 @@ interface PageShellProps {
 export function PageShell({
   children,
   topSlot,
+  heroSlot,
   rootClassName,
   mainClassName,
   rootStyle,
@@ -23,6 +25,7 @@ export function PageShell({
   return (
     <div className={clsx('min-h-screen flex flex-col', rootClassName)} style={rootStyle}>
       {topSlot && <div className="mt-[var(--nav-height)]">{topSlot}</div>}
+      {heroSlot && <div className="w-full">{heroSlot}</div>}
       <main className={clsx('flex-1', mainClassName)}>{children}</main>
       <section
         aria-label="Theme controls"

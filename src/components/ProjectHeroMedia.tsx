@@ -26,23 +26,27 @@ export function ProjectHeroMedia({
   const isTechnical = mode === 'technical-diagram';
   const isPortrait = mode === 'portrait';
   const fitClass =
-    isTechnical || isPortrait
+    isTechnical
       ? 'object-contain'
-      : 'object-cover';
+      : isPortrait
+        ? 'object-cover'
+        : 'object-cover';
   const frameClass =
-    isTechnical || isPortrait
-      ? 'bg-[var(--surface-paper)]'
-      : 'bg-[var(--surface-muted)]';
+    isTechnical
+      ? ''
+      : isPortrait
+        ? 'bg-[var(--surface-paper)]'
+        : 'bg-[var(--surface-muted)]';
 
   const sizeClass = isTechnical
-    ? 'mx-auto aspect-video w-full max-w-6xl max-h-[60vh] md:max-h-[55vh]'
+    ? 'h-[60vh] md:h-[55vh]'
     : isPortrait
       ? 'mx-auto aspect-[4/5] w-full max-w-3xl'
       : 'h-80 w-full md:h-[430px]';
 
   return (
     <div
-      className={`relative overflow-hidden ${sizeClass} ${frameClass} ${
+      className={`relative overflow-hidden w-full ${sizeClass} ${frameClass} ${
         withTopOffset ? 'mt-[var(--nav-height)]' : ''
       }`}
     >

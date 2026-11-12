@@ -113,9 +113,10 @@ export default function ProjectDetailClient({
   });
 
   return (
-    <PageShell rootStyle={accentVars(project.accentColor)}>
-        {/* Hero Image */}
-        {project.heroImage ? (
+    <PageShell 
+      rootStyle={accentVars(project.accentColor)}
+      heroSlot={
+        project.heroImage ? (
           <ProjectHeroMedia
             media={project.heroImage}
             alt={project.title}
@@ -132,8 +133,9 @@ export default function ProjectDetailClient({
           >
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/[0.02]" />
           </div>
-        )}
-
+        )
+      }
+    >
         {/* Content */}
         <ProjectContentShell
           className={layoutClassNames.projectContentExtended}
