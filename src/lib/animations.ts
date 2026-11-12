@@ -1,9 +1,9 @@
 import { Variants } from 'framer-motion';
 
-export const standardDuration = 0.5;
+export const standardDuration = 0.3;
 export const standardEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
-export const standardStaggerChildren = 0.1;
-export const standardDelayChildren = 0.06;
+export const standardStaggerChildren = 0.05;
+export const standardDelayChildren = 0.02;
 export const interactionDuration = 0.24;
 export const interactionTapScale = 0.985;
 export const interactionHoverLiftY = -6;
@@ -27,7 +27,7 @@ export const fadeIn: Variants = {
   initial: { opacity: 0 },
   animate: { 
     opacity: 1,
-    transition: { duration: standardDuration, ease: standardEase },
+    transition: { duration: 0.2, ease: standardEase },
   },
 };
 
@@ -64,7 +64,7 @@ export const staggerContainer: Variants = {
     opacity: 1,
     transition: {
       staggerChildren: standardStaggerChildren,
-      delayChildren: standardDelayChildren,
+      delayChildren: 0,
     },
   },
 };
@@ -74,8 +74,8 @@ export const heroStagger: Variants = {
   animate: {
     opacity: 1,
     transition: {
-      staggerChildren: standardStaggerChildren,
-      delayChildren: standardDelayChildren,
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
     },
   },
 };
@@ -85,7 +85,7 @@ export const heroReveal: Variants = {
   animate: {
     opacity: 1,
     y: 0,
-    transition: { duration: standardDuration, ease: standardEase },
+    transition: { duration: 0.4, ease: standardEase },
   },
 };
 

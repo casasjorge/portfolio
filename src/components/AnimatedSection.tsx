@@ -26,7 +26,7 @@ export function AnimatedSection({
       variants={variants[variant]}
       initial="initial"
       whileInView="animate"
-      viewport={{ once: true, amount: 0.1 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: standardDuration, delay, ease: standardEase }}
       className={className}
     >

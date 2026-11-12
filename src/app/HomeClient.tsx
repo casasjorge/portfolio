@@ -170,22 +170,25 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
           initial="initial"
           animate="animate"
         >
-          {/* Hero Background Media - Full Bleed */}
+          {/* Hero Background Media - Full Bleed with enhanced overlay */}
           <div className="editorial-home-wash absolute inset-0 z-10" />
           {showHeroVideo ? (
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-              poster={MAIN_TAB_HERO_MEDIA.homePoster}
-              className="absolute inset-0 z-0 h-full w-full object-cover opacity-40"
-              aria-hidden="true"
-            >
-              <source src={MAIN_TAB_HERO_MEDIA.homeWebm} type="video/webm" />
-              <source src={MAIN_TAB_HERO_MEDIA.home} type="video/mp4" />
-            </video>
+            <>
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                poster={MAIN_TAB_HERO_MEDIA.homePoster}
+                className="absolute inset-0 z-0 h-full w-full object-cover opacity-45"
+                aria-hidden="true"
+              >
+                <source src={MAIN_TAB_HERO_MEDIA.homeWebm} type="video/webm" />
+                <source src={MAIN_TAB_HERO_MEDIA.home} type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 z-[5] bg-gradient-to-r from-transparent via-transparent to-black/20" aria-hidden="true" />
+            </>
           ) : null}
 
           {/* Content Container - Centered with max-width */}
@@ -353,9 +356,9 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
         <SectionBlock spacing="tight" id="contact" style={homeSectionStyle}>
           <AnimatedSection>
             <div className="editorial-panel rounded-xl px-6 pt-6 pb-5 text-center sm:px-8 sm:pt-8 sm:pb-5">
-              <h2 className="text-3xl font-bold mb-3">Let&apos;s get in Contact!</h2>
+              <h2 className="text-3xl font-bold mb-3">Let&apos;s connect</h2>
               <p className="mx-auto mb-7 max-w-2xl text-gray-300">
-                Explore my resume, CV, and professional profiles below. I’m always happy to connect about research, engineering projects, or technical collaborations.
+                Explore my resume, CV, and professional profiles. I&apos;m always happy to discuss research, engineering projects, and technical collaborations.
               </p>
               <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-4">
                 <div className="grid w-full max-w-lg grid-cols-2 gap-2 sm:grid-cols-4">
@@ -402,7 +405,7 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
                 <button
                   type="button"
                   onClick={copyEmailToClipboard}
-                  className="group inline-flex w-full max-w-lg flex-col items-center justify-center gap-1.5 rounded-lg border border-cyan-400/40 bg-slate-950/40 px-4 py-3 text-cyan-200 backdrop-blur transition-colors hover:border-cyan-300/70 hover:bg-cyan-500/10"
+                  className="group inline-flex w-full max-w-lg flex-col items-center justify-center gap-1.5 rounded-lg border border-cyan-400/60 bg-cyan-500/15 px-4 py-3 text-cyan-100 backdrop-blur transition-all hover:border-cyan-300/90 hover:bg-cyan-500/25"
                   aria-label={`Copy email address ${CONTACT_EMAIL} to clipboard`}
                 >
                   <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan-300/90 sm:text-xs">

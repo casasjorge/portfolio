@@ -33,8 +33,9 @@ export function ProjectHeroMedia({
     isTechnical || isPortrait
       ? 'bg-[var(--surface-paper)]'
       : 'bg-[var(--surface-muted)]';
+
   const sizeClass = isTechnical
-    ? 'mx-auto aspect-video w-full max-w-6xl'
+    ? 'mx-auto aspect-video w-full max-w-6xl max-h-[60vh] md:max-h-[55vh]'
     : isPortrait
       ? 'mx-auto aspect-[4/5] w-full max-w-3xl'
       : 'h-80 w-full md:h-[430px]';

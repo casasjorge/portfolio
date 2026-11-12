@@ -26,9 +26,7 @@ export function ProjectCard({
 }: ProjectCardProps) {
   const isFeatured = variant === 'featured';
   const titleRef = useRef<HTMLHeadingElement | null>(null);
-  const tagStripRef = useRef<HTMLDivElement | null>(null);
   const [isSingleLineTitle, setIsSingleLineTitle] = useState(false);
-  const [showTagOverflowIndicator, setShowTagOverflowIndicator] = useState(false);
   const canonicalLabels = getCanonicalLabels(project.tags);
   const formatTagLabel = (tag: string) => tag.replace(/-/g, ' ').trim().toLowerCase();
   const primaryCategoryTag =
@@ -39,7 +37,10 @@ export function ProjectCard({
     .filter((tag, index, tags) => tags.indexOf(tag) === index)
     .filter((tag) => tag !== primaryCategoryTag);
   const allCategoryTags = [primaryCategoryTag, ...additionalTagLabels];
-  const tagOverflowMeasureKey = allCategoryTags.join('|');
+
+  const MAX_VISIBLE_TAGS = 2;
+  const visibleTags = allCategoryTags.slice(0, MAX_VISIBLE_TAGS);
+  const hiddenTagCount = Math.max(0, allCategoryTags.length - MAX_VISIBLE_TAGS);
 
   useEffect(() => {
     const measureTitleLines = () => {
@@ -76,36 +77,6 @@ export function ProjectCard({
       window.removeEventListener('resize', measureTitleLines);
     };
   }, [project.title]);
-
-  useEffect(() => {
-    const measureTagOverflow = () => {
-      const el = tagStripRef.current;
-      if (!el) {
-        setShowTagOverflowIndicator(false);
-        return;
-      }
-      setShowTagOverflowIndicator(el.scrollWidth - el.clientWidth > 1);
-    };
-
-    measureTagOverflow();
-
-    const observer =
-      typeof ResizeObserver !== 'undefined' && tagStripRef.current
-        ? new ResizeObserver(measureTagOverflow)
-        : null;
-    if (observer && tagStripRef.current) {
-      observer.observe(tagStripRef.current);
-    }
-
-    window.addEventListener('resize', measureTagOverflow);
-    const fonts = (document as Document & { fonts?: { ready?: Promise<unknown> } }).fonts;
-    fonts?.ready?.then(measureTagOverflow).catch(() => undefined);
-
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener('resize', measureTagOverflow);
-    };
-  }, [tagOverflowMeasureKey]);
 
   const card = (
       <motion.div
@@ -156,32 +127,31 @@ export function ProjectCard({
             }`}
           />
           <div className="w-full self-start mb-5 text-left">
-            <div className="flex w-full items-center gap-0.5 overflow-hidden whitespace-nowrap text-xs leading-tight">
+            <div className="flex w-full items-center gap-1.5 text-xs leading-tight">
               <span className="shrink-0 font-semibold text-slate-900 dark:text-white">Category:</span>
               <div
-                ref={tagStripRef}
-                className="min-w-0 flex flex-1 items-center gap-0.5 overflow-hidden"
+                className="flex flex-wrap items-center gap-1"
                 title={allCategoryTags.join(', ')}
               >
-                {allCategoryTags.map((tag) => (
+                {visibleTags.map((tag) => (
                   <span
                     key={tag}
-                    className="shrink-0 max-w-[45%] truncate rounded-full px-3 py-1.5 accent-tag transition-all"
+                    className="shrink-0 rounded-full px-2.5 py-1 accent-tag transition-all whitespace-nowrap"
                     title={tag}
                   >
                     {tag}
                   </span>
                 ))}
+                {hiddenTagCount > 0 && (
+                  <span
+                    className="shrink-0 accent-text font-semibold"
+                    aria-label={`${hiddenTagCount} additional tags`}
+                    title={`more tags: ${allCategoryTags.slice(MAX_VISIBLE_TAGS).join(', ')}`}
+                  >
+                    +{hiddenTagCount}
+                  </span>
+                )}
               </div>
-              {showTagOverflowIndicator && (
-                <span
-                  className="shrink-0 accent-text"
-                  aria-label={`${additionalTagLabels.length} additional tags`}
-                  title={`more tags: ${additionalTagLabels.join(', ')}`}
-                >
-                  ...
-                </span>
-              )}
             </div>
           </div>
           <div className="flex items-center gap-2 accent-text transition-colors">
