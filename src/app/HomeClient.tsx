@@ -181,7 +181,7 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
                 playsInline
                 preload="metadata"
                 poster={MAIN_TAB_HERO_MEDIA.homePoster}
-                className="absolute inset-0 z-0 h-full w-full object-cover opacity-45"
+                className="absolute inset-0 z-0 h-full w-full object-cover opacity-[0.5607]"
                 aria-hidden="true"
               >
                 <source src={MAIN_TAB_HERO_MEDIA.homeWebm} type="video/webm" />
@@ -416,7 +416,7 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
                         : 'Click To Copy Email'}
                   </span>
                   <span className="inline-flex items-center gap-1.5 text-sm font-semibold sm:text-base">
-                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-3.5 w-3.5 sm:h-4 sm:w-4">
+                    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-900 dark:text-white">
                       <path
                         d="M3.75 5.5A1.75 1.75 0 0 1 5.5 3.75h9A1.75 1.75 0 0 1 16.25 5.5v9A1.75 1.75 0 0 1 14.5 16.25h-9A1.75 1.75 0 0 1 3.75 14.5v-9Z"
                         stroke="currentColor"
@@ -430,7 +430,7 @@ export default function HomeClient({ featuredProjects }: HomeClientProps) {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span>{CONTACT_EMAIL}</span>
+                    <span className="text-slate-900 dark:text-white font-semibold">{CONTACT_EMAIL}</span>
                     <span
                       className="relative inline-flex h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4"
                       aria-hidden="true"
