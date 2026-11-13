@@ -155,7 +155,13 @@ This keeps the original aspect ratio and resolution behavior while rendering tra
 
 ## Project Image Modes
 
-Use `heroImageMode` for a hero that needs a specific fit and `mediaModes` for narrative or gallery media. Supported modes are `hero`, `technical-diagram`, `full-width-evidence`, `detail-crop`, `portrait`, `gallery`, and `video-still`. Technical diagrams and portraits preserve their full frame; full-width evidence uses the full section width; detail crops intentionally use a fixed crop. For an individual inline image, append `?mode=technical-diagram` (or another supported mode) to its path.
+Use `heroImageMode` for a hero that needs a specific fit and `mediaModes` for narrative or gallery media. Supported modes are `hero`, `technical-diagram`, `full-width-evidence`, `detail-crop`, `portrait`, `gallery`, and `video-still`.
+
+**Technical-diagram hero**: Responsive framing — shows 16:9 aspect on mobile (preserves vehicle silhouettes and plot axes) and close-up on desktop (capped at 430px height). Narrative and card technical diagrams use full context mode to preserve surrounding visualization.
+
+**Portrait and photo modes**: Retain intentional centering and aspect ratios; photo heroes use full viewport width.
+
+For an individual inline image, append `?mode=technical-diagram` (or another supported mode) to its path.
 
 ## Section Parsing Rules (Important)
 

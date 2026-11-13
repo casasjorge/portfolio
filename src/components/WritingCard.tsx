@@ -53,9 +53,9 @@ export function WritingCard({ writing }: { writing: Writing }) {
         </span>
       </div>
 
-      <h3 className="text-xl md:text-2xl font-bold mb-3 font-display group-hover:text-cyan-400 transition-colors">
+      <h2 className="text-xl md:text-2xl font-bold mb-3 font-display group-hover:text-cyan-400 transition-colors">
         {writing.title}
-      </h3>
+      </h2>
 
       <p className="text-gray-400 leading-relaxed mb-4 text-sm md:text-base">
         {writing.abstract}

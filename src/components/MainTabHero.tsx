@@ -20,7 +20,7 @@ export function MainTabHero({
   description,
   mediaSrc,
   priority = false,
-  mediaClassName = 'object-cover opacity-40 dark:opacity-40 brightness-110 dark:brightness-100',
+  mediaClassName = 'object-cover opacity-55 dark:opacity-40 brightness-95 dark:brightness-100',
   titleClassName = 'text-5xl md:text-6xl font-bold mb-6',
   descriptionClassName = 'text-lg text-gray-400 max-w-2xl',
 }: MainTabHeroProps) {

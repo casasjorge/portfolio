@@ -69,6 +69,7 @@ function ProjectSubpageClient({ project, subpage, children }: ProjectSubpageClie
             alt={subpage.title}
             priority
             withTopOffset={!hasSubpageNav}
+            mode={heroMedia ? project.mediaModes?.[heroMedia] : undefined}
           />
         )}
 
@@ -111,7 +112,8 @@ function ProjectSubpageClient({ project, subpage, children }: ProjectSubpageClie
         <motion.section className={layoutClassNames.sectionTight} variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true }}>
           <AnimatedSection>
             <Link href={`/projects/${project.slug}/`} className={uiButtonStyles.outlineMd}>
-              {'<'} Back to {project.title}
+              <span className="hidden sm:inline">{'<'} Back to {project.title}</span>
+              <span className="inline sm:hidden">{'<'} Back</span>
             </Link>
           </AnimatedSection>
         </motion.section>

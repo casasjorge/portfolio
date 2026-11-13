@@ -19,11 +19,12 @@ export default function WritingPageClient({ writings }: { writings: Writing[] })
           title="Writing & Research"
           description="Research papers, technical reports, and essays across astrophysics, propulsion engineering, and computational methods."
           mediaSrc={MAIN_TAB_HERO_MEDIA.writing}
+          mediaClassName="object-cover object-left opacity-55 dark:opacity-40 brightness-95 dark:brightness-100"
           titleClassName="text-5xl md:text-6xl font-bold mb-6 font-display"
         />
 
         {/* Writing List */}
-        <SectionBlock className="pt-0">
+        <SectionBlock style={{ paddingTop: '2.5rem' }}>
           {writings.length > 0 ? (
             <motion.div
               className="space-y-6"

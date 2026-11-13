@@ -224,11 +224,11 @@ button {
   background:
     linear-gradient(
       90deg,
-      rgba(243, 240, 233, 0.86) 0%,
-      rgba(243, 240, 233, 0.68) 48%,
-      rgba(243, 240, 233, 0.28) 100%
+      rgba(243, 240, 233, 0.74) 0%,
+      rgba(243, 240, 233, 0.48) 48%,
+      rgba(243, 240, 233, 0.14) 100%
     ),
-    linear-gradient(180deg, rgba(243, 240, 233, 0.08), rgba(243, 240, 233, 0.24));
+    linear-gradient(180deg, rgba(243, 240, 233, 0.04), rgba(243, 240, 233, 0.12));
 }
 
 .dark .editorial-home-wash {

@@ -25,21 +25,12 @@ export function ProjectHeroMedia({
   const isVideo = /\.(mp4|mov|webm)$/i.test(media);
   const isTechnical = mode === 'technical-diagram';
   const isPortrait = mode === 'portrait';
-  const fitClass =
-    isTechnical
-      ? 'object-cover'
-      : isPortrait
-        ? 'object-cover'
-        : 'object-cover';
-  const frameClass =
-    isTechnical
-      ? ''
-      : isPortrait
-        ? 'bg-[var(--surface-paper)]'
-        : 'bg-[var(--surface-muted)]';
+
+  const objectFit = isTechnical ? 'object-contain md:object-cover' : 'object-cover';
+  const frameClass = isTechnical ? 'bg-[var(--surface-muted)]' : isPortrait ? 'bg-[var(--surface-paper)]' : 'bg-[var(--surface-muted)]';
 
   const sizeClass = isTechnical
-    ? 'h-[60vh] md:h-[55vh]'
+    ? 'aspect-video md:h-[430px] md:max-h-[55vh] md:aspect-auto'
     : isPortrait
       ? 'mx-auto aspect-[4/5] w-full max-w-3xl'
       : 'h-80 w-full md:h-[430px]';
@@ -73,7 +64,7 @@ export function ProjectHeroMedia({
             src={media}
             alt={alt}
             fill
-            className={fitClass}
+            className={objectFit}
             priority={priority}
           />
         </button>
@@ -82,7 +73,7 @@ export function ProjectHeroMedia({
           src={media}
           alt={alt}
           fill
-          className={fitClass}
+          className={objectFit}
           priority={priority}
         />
       )}

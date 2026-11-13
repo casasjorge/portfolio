@@ -29,6 +29,6 @@ export const MAIN_TAB_HERO_MEDIA = {
   home: '/heroes/main-tabs/home-hero.mp4',
   homeWebm: '/heroes/main-tabs/home-hero.webm',
   homePoster: '/heroes/main-tabs/home-hero-poster.jpg',
-  projects: '/heroes/main-tabs/projects-hero.png',
+  projects: '/heroes/main-tabs/projects-hero.webp',
   writing: '/heroes/main-tabs/writing-hero.png',
 } as const;

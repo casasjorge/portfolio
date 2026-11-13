@@ -12,10 +12,10 @@ import { standardDuration, standardEase } from '@/lib/animations';
 export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: standardDuration, ease: standardEase }}
-      style={{ willChange: 'opacity, transform' }}
+      initial={{ y: 8 }}
+      animate={{ y: 0 }}
+      transition={{ duration: standardDuration * 0.8, ease: standardEase }}
+      style={{ willChange: 'transform' }}
     >
       {children}
     </motion.div>

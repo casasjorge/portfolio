@@ -146,7 +146,8 @@ export default function ProjectDetailClient({
               href="/projects"
               className={`${uiLinkStyles.accent} mb-8 inline-block`}
             >
-              {'<'} Back to Projects
+              <span className="hidden sm:inline">{'<'} Back to Projects</span>
+              <span className="inline sm:hidden">{'<'} Back</span>
             </Link>
           </AnimatedSection>
 
